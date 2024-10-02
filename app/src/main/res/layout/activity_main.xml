@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="visible"
+    android:background="@color/white"
+    tools:context=".MainActivity">
+
+
+    <ImageButton
+        android:id="@+id/imageButton1"
+        style="@style/Widget.AppCompat.ImageButton"
+        android:layout_width="168dp"
+        android:layout_height="147dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="1dp"
+        android:background="@mipmap/ic_arrosage_on_off"
+        android:contentDescription="@string/text_arrosage"
+        app:layout_constraintEnd_toStartOf="@+id/imageButton2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/menuitem_background" />
+
+    <ImageButton
+        android:id="@+id/imageButton2"
+        android:layout_width="169dp"
+        android:layout_height="148dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="2dp"
+        android:background="@mipmap/ic_reservoir_on_off"
+        android:contentDescription="@string/text_none"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageButton1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/menuitem_background" />
+
+    <ImageButton
+        android:id="@+id/imageButton3"
+        style="@style/Widget.AppCompat.ImageButton"
+        android:layout_width="146dp"
+        android:layout_height="134dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="1dp"
+        android:background="@mipmap/ic_four_on"
+        android:contentDescription="@string/text_none"
+        app:layout_constraintEnd_toStartOf="@+id/imageButton4"
+        app:layout_constraintHorizontal_bias="0.38"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageButton1"
+        app:srcCompat="@android:drawable/menuitem_background" />
+
+    <ImageButton
+        android:id="@+id/imageButton4"
+        style="@style/Widget.AppCompat.ImageButton"
+        android:layout_width="158dp"
+        android:layout_height="133dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="2dp"
+        android:background="@mipmap/ic_vmc_off"
+        android:contentDescription="@string/text_none"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageButton3"
+        app:layout_constraintTop_toBottomOf="@+id/imageButton2"
+        app:srcCompat="@android:drawable/menuitem_background" />
+
+    <ImageButton
+        android:id="@+id/imageButton5"
+        style="@style/Widget.AppCompat.ImageButton"
+        android:layout_width="164dp"
+        android:layout_height="133dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="1dp"
+        android:background="@mipmap/ic_arrosage_est_off"
+        android:contentDescription="@string/text_none"
+        app:layout_constraintEnd_toStartOf="@+id/imageButton6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageButton3"
+        app:srcCompat="@android:drawable/menuitem_background" />
+
+    <ImageButton
+        android:id="@+id/imageButton6"
+        style="@style/Widget.AppCompat.ImageButton"
+        android:layout_width="159dp"
+        android:layout_height="134dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="2dp"
+        android:background="@mipmap/ic_pac_on"
+        android:contentDescription="@string/text_none"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageButton5"
+        app:layout_constraintTop_toBottomOf="@+id/imageButton4"
+        app:srcCompat="@android:drawable/menuitem_background" />
+
+<!--    <ImageButton-->
+<!--        android:id="@+id/imageButton7"-->
+<!--        style="@style/Widget.AppCompat.ImageButton"-->
+<!--        android:layout_width="161dp"-->
+<!--        android:layout_height="132dp"-->
+<!--        android:layout_marginStart="2dp"-->
+<!--        android:layout_marginTop="2dp"-->
+<!--        android:layout_marginEnd="1dp"-->
+<!--        android:background="@mipmap/ic_pac_off"-->
+<!--        android:contentDescription="@string/text_none"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/imageButton8"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/imageButton5"-->
+<!--        app:srcCompat="@android:drawable/menuitem_background" />-->
+
+<!--    <ImageButton-->
+<!--        android:id="@+id/imageButton8"-->
+<!--        style="@style/Widget.AppCompat.ImageButton"-->
+<!--        android:layout_width="161dp"-->
+<!--        android:layout_height="129dp"-->
+<!--        android:layout_marginStart="1dp"-->
+<!--        android:layout_marginTop="2dp"-->
+<!--        android:layout_marginEnd="2dp"-->
+<!--        android:background="@mipmap/ic_arrosage_est_off"-->
+<!--        android:contentDescription="@string/text_none"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/imageButton7"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/imageButton6"-->
+<!--        app:srcCompat="@android:drawable/list_selector_background" />-->
+
+    <TextView
+        android:id="@+id/textStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:text="@string/text_status"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageButton6"
+        tools:ignore="RtlHardcoded" />
+
+    <ImageView
+        android:layout_width="411dp"
+        android:layout_height="195dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textStatus"
+        app:srcCompat="@mipmap/ic_jeanbart"
+        android:contentDescription="TODO" />
+
+    <!--    <TextView-->
+<!--        android:id="@+id/textViewTimeOut"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        android:layout_marginEnd="32dp"-->
+<!--        android:textSize="18sp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/imageButton8" />-->
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PowerPlageCookingActivity">
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:text="Heures mise hors tension"
+        android:textAlignment="center"
+        android:textColor="#009688"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TimePicker
+        android:id="@+id/timePickerPac"
+        android:layout_width="226dp"
+        android:layout_height="183dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="78dp"
+        android:layout_marginEnd="32dp"
+        android:timePickerMode="spinner"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+
+    <RadioGroup
+        android:layout_width="282dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/id_switch_pac">
+
+        <RadioButton
+            android:id="@+id/radioButtonPacOn"
+            android:layout_width="92dp"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Plage 1"
+            tools:layout_editor_absoluteX="163dp"
+            tools:layout_editor_absoluteY="620dp" />
+
+        <RadioButton
+            android:id="@+id/radioButtonPacOff"
+            android:layout_width="92dp"
+            android:layout_height="wrap_content"
+            android:text="Plage 2" />
+
+        <RadioButton
+            android:id="@+id/radioButtonCooking3"
+            android:layout_width="92dp"
+            android:layout_height="wrap_content"
+            android:text="Plage 3"
+            tools:text="Plage 3" />
+
+
+    </RadioGroup>
+
+    <Switch
+        android:id="@+id/id_switch_pac"
+        android:layout_width="124dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="32dp"
+        android:text="Activé"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timePickerPac" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

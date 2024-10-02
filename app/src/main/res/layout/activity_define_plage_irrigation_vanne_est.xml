@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PlageIrrigationVanneEstActivity">
+
+    <SeekBar
+        android:id="@+id/seekBarDebit"
+        android:layout_width="247dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="32dp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDebit" />
+
+    <TextView
+        android:id="@+id/textViewDebit"
+        android:layout_width="105dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="153dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="153dp"
+        android:text="Debit"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/seekBar" />
+
+    <TextView
+        android:id="@+id/textViewEst"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:text="Heures d'arrosage"
+        android:textAlignment="center"
+        android:textColor="@color/teal_200"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TimePicker
+        android:id="@+id/timePickerEst"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="32dp"
+        android:timePickerMode="spinner"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewEst" />
+
+
+    <Switch
+        android:id="@+id/id_switch_est"
+        android:layout_width="124dp"
+        android:layout_height="14dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="32dp"
+        android:text="Activé"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/seekBarDebit" />
+
+    <RadioGroup
+        android:layout_width="283dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="32dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/id_switch_est">
+
+        <RadioButton
+            android:id="@+id/radioButtonEst1"
+            android:layout_width="92dp"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Plage 1" />
+
+        <RadioButton
+            android:id="@+id/radioButtonEst2"
+            android:layout_width="92dp"
+            android:layout_height="wrap_content"
+            android:text="Plage 2" />
+
+        <RadioButton
+            android:id="@+id/radioButtonEst3"
+            android:layout_width="98dp"
+            android:layout_height="wrap_content"
+            android:text="Plage 3"
+            tools:text="Plage 3" />
+    </RadioGroup>
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="247dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="32dp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDuree" />
+
+    <TextView
+        android:id="@+id/textViewDuree"
+        android:layout_width="105dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="153dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="153dp"
+        android:text="Durée"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timePickerEst" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

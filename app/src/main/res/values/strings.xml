@@ -1,0 +1,58 @@
+<resources>
+    <string name="app_name">Automate</string>
+    <string name="cnx_nok">Attente du client</string>
+    <string name="cnx_ok">Connecté au client</string>
+    <string name="action_exit">Quitter</string>
+    <string name="action_reservoir">Réamorcer réservoir</string>
+    <string name="text_status">Status connexion</string>
+    <string name="text_arrosage">Déclenche l\'arrosage avec la lance</string>
+    <string name="text_none"></string>
+    <string name="porte_garage_title">Commande porte garage</string>
+    <string name="text_defaut_pompe">Défaut pompe</string>
+    <string name="text_warning_message1">- S\'assurer que le disjoncteur pompe est enclenché\n\n
+                                         - Si le résevoir est sous pression avec la pompe\n
+                                            en fonctionnement, le capteur de pression situé\n
+                                            au dessus du réservoir est déréglé ou en panne.\n\n
+                                            ARRETER LA POMPE AU DISJONCTEUR POMPE\n
+                                         - Si le réservoir n\'est pas sous pression, redémarrer\n
+                                           l\`automate sur le panneau éléctrique\n\n
+                                           Si le défaut persite le circuit d\'alimentation\n
+                                           d\'eau est en panne.</string>
+    <string name="text_defaut_cor">Défaut corrigé</string>
+    <string name="tousles">Tout les x jours</string>
+    <string name="AppTitle">"Home automate"</string>
+    <string name="heures_arrosage">Heures de remplissage</string>
+    <string name="circuit2">Ouverture vanne circuit 2</string>
+    <string name="porte_portail_title">Portail</string>
+    <string name="commande_portail">Commande portail</string>
+    <string name="reboot">Redémarrer le client</string>
+    <string name="mqtt_ok">Connecté au courtier</string>
+    <string name="mqtt_nok">Connexion au courtier</string>
+    <string name="action_power_off">Couper le client</string>
+    <string name="action_power_on">Alimenter le client</string>
+    <string name="command_power_off">Commande hors tension</string>
+    <string name="action_watch_dog_off">Désactiver le chien de garde</string>
+    <string name="activer_desactiver_des_boutons">Activer/désactiver les boutons</string>
+    <string name="pac_programm">Pac heure mise sous tension</string>
+    <string name="power_off">PAC heure mise hors tension</string>
+    <string name="duree_arrosage">Durée arrosage</string>
+    <string name="temps_arrosage_EV_EST">Temps arrosage EV EST</string>
+    <string name="duree_remplissage_reservoir">Durée remplissage réservoir</string>
+    <string name="temps_avant_mise_en_securite">Temps avant mise en sécurité pompe supresseur</string>
+    <string name="heure_ete">Heure été</string>
+    <string name="heure_hivers">Heure hiver</string>
+    <string name="activer_les_logs">Logs désactivés</string>
+    <string name="desactiver_les_logs">Logs activés</string>
+    <string name="vmc_programm_on">VMC heure mise sous tension</string>
+    <string name="vmc_programm_off">VMC heure mise hors tension</string>
+    <string name="active">Activé</string>
+    <string name="desactive">Desactivé</string>
+    <string name="IR_off_line">IR hors ligne</string>
+    <string name="pac_ajust">Réglage PAC</string>
+    <string name="pac_command">Commande PAC</string>
+    <string name="pac_on">PAC on</string>
+    <string name="pac_off">PAC off</string>
+    <string name="surpressor_dis">Surpresseur desactivé</string>
+    <string name="surpressor_en">Surpresseur activé</string>
+
+</resources>

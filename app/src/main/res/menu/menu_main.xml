@@ -1,0 +1,81 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+    <item
+        android:id="@+id/id_action_garage"
+        android:capitalize="none"
+        android:contentDescription="@string/porte_garage_title"
+        android:icon="@mipmap/ic_mecanisme"
+        android:orderInCategory="100"
+        android:title="@string/porte_garage_title"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/id_action_portail"
+        android:capitalize="none"
+        android:contentDescription="@string/porte_portail_title"
+        android:icon="@mipmap/ic_portail"
+        android:orderInCategory="99"
+        android:title="@string/commande_portail"
+        />
+    <item
+        android:id="@+id/id_action_reservoir"
+        android:enabled="false"
+        android:orderInCategory="101"
+        android:title="@string/action_reservoir" />
+    <item
+        android:id="@+id/id_action_cooking"
+        android:orderInCategory="101"
+        android:title="Mise hors tension appareils de cuisson" />
+    <item
+        android:id="@+id/id_action_pac"
+        android:orderInCategory="101"
+        android:title="Programmation PAC" />
+    <item
+        android:id="@+id/id_action_irrigationEst"
+        android:orderInCategory="102"
+        android:title="Heures d'irigation facade sud" />
+    <item
+        android:id="@+id/id_action_irrigation"
+        android:orderInCategory="103"
+        android:title="Heures d'irigation (remplissage réservoir)" />
+    <item
+        android:id="@+id/id_action_prog_vmc"
+        android:orderInCategory="104"
+        android:title="Programmer la VMC" />
+    <item
+        android:id="@+id/id_action_protect"
+        android:orderInCategory="106"
+        android:title="@string/activer_desactiver_des_boutons" />
+    <item
+        android:id="@+id/id_action_parametrer_client"
+        android:orderInCategory="109"
+        android:title="Paramétrer le client" />
+    <item
+        android:id="@+id/id_action_reboot"
+        android:enabled="true"
+        android:orderInCategory="110"
+        android:title="@string/reboot" />
+    <item
+        android:id="@+id/id_action_exit"
+        android:icon="@mipmap/ic_quit"
+        android:orderInCategory="101"
+        android:title="@string/action_exit"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/id_action_logs"
+        android:enabled="true"
+        android:orderInCategory="100"
+        android:title="Voir les logs" />
+    <item
+        android:id="@+id/id_a_propos"
+        android:enabled="true"
+        android:orderInCategory="99"
+        android:title="A propos" />
+    <item
+        android:id="@+id/id_watch_dog_off"
+        android:enabled="false"
+        android:orderInCategory="111"
+        android:title="@string/action_watch_dog_off"
+        android:visible="true" />
+</menu>

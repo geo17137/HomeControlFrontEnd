@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/idJoursSlider"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PlageIrrigationActivity">
+
+
+    <TextView
+        android:id="@+id/textViewZ"
+        android:layout_width="302dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/circuit2"
+        android:textAlignment="center"
+        android:textColor="@color/teal_200"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.56"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup2" />
+
+    <TextView
+        android:id="@+id/textViewZ2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/heures_arrosage"
+        android:textAlignment="center"
+        android:textColor="@color/teal_200"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TimePicker
+        android:id="@+id/timePickerIrrigation"
+        android:layout_width="248dp"
+        android:layout_height="229dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="32dp"
+        android:timePickerMode="spinner"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewZ2" />
+
+    <Switch
+        android:id="@+id/id_switch_z"
+        android:layout_width="124dp"
+        android:layout_height="14dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:text="Activé"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timePickerIrrigation" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup2"
+        android:layout_width="283dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/id_switch_z">
+
+
+        <RadioButton
+            android:id="@+id/radioButtonIrrigation1"
+            android:layout_width="92dp"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Plage 1" />
+
+        <RadioButton
+            android:id="@+id/radioButtonIrrigation2"
+            android:layout_width="92dp"
+            android:layout_height="wrap_content"
+            android:text="Plage 2" />
+
+        <RadioButton
+            android:id="@+id/radioButtonIrrigation3"
+            android:layout_width="98dp"
+            android:layout_height="wrap_content"
+            android:text="Plage 3"
+            tools:text="Plage 3" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/textViewXjours"
+        android:layout_width="206dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:text="@string/tousles"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewZ" />
+
+    <SeekBar
+        android:id="@+id/seekBarJours"
+        android:layout_width="200dp"
+        android:layout_height="21dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewXjours" />
+
+    <Switch
+        android:id="@+id/switchCircuit2"
+        android:layout_width="156dp"
+        android:layout_height="16dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:text="Position vanne"
+        android:enabled="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/seekBarJours" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
