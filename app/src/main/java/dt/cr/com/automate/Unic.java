@@ -7,7 +7,7 @@ import android.widget.ImageButton;
 class Unic {
 
   @SuppressLint("StaticFieldLeak")
-  final String version = "2024.9.24";
+  final String version = "2024.12.14";
 
   private static final Unic ourInstance = new Unic();
 

@@ -380,6 +380,8 @@ public class MainActivity extends AppCompatActivity {
     // Commande VMC
     cmd4.setOnClickListener(view -> {
       cmdVmc = cmdVmc % 4;
+      Log.d("debug", "cmdVmc" + ":" + cmdVmc);
+
       switch (cmdVmc) {
         case 0 :
           // Mode off (pas de vcm active, même ne mode programmée)
@@ -392,17 +394,18 @@ public class MainActivity extends AppCompatActivity {
           cmdVmc++;
           break;
         case 2 :
-          // Mode forcé rapide (programmation off)
-          mqttHelper.publish(TOPIC_CMD_VMC, "2".getBytes());
-          mqttHelper.publish(VMC_BOARD_ACTION, PUBLISH_STATE_ON.getBytes());
-          cmdVmc++;
-          break;
-        case 3 :
           // Mode forcé lent (programmation off)
           mqttHelper.publish(TOPIC_CMD_VMC, "3".getBytes());
           mqttHelper.publish(VMC_BOARD_ACTION, PUBLISH_STATE_OFF.getBytes());
           mqttHelper.publish(VMC_BOARD_ACTION, OFF.getBytes());
           cmdVmc++;
+          break;
+        case 3 :
+          // Mode forcé rapide (programmation off)
+          mqttHelper.publish(TOPIC_CMD_VMC, "2".getBytes());
+          mqttHelper.publish(VMC_BOARD_ACTION, PUBLISH_STATE_ON.getBytes());
+          cmdVmc++;
+          break;
       }
     });
 
@@ -820,15 +823,15 @@ public class MainActivity extends AppCompatActivity {
             break;
           case VMC_ON :
             cmd4.setBackgroundResource(R.mipmap.ic_vmc_on);
-            setCmdVmc(3);
+            setCmdVmc(2);
             break;
           case VMC_ON_FAST :
             cmd4.setBackgroundResource(R.mipmap.ic_vmc_fast);
-            setCmdVmc(2);
+            setCmdVmc(3);
             break;
           case VMC_PROG_OFF :
             cmd4.setBackgroundResource(R.mipmap.ic_vmc_prog);
-            setCmdVmc(1);
+            setCmdVmc(0);
             break;
           case VMC_PROG_ON :
             cmd4.setBackgroundResource(R.mipmap.ic_vmc_prog_on);
