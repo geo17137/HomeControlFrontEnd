@@ -123,8 +123,7 @@ public class MainActivity extends AppCompatActivity {
   private int statusCmd_PAC;
 //  private int networkTest;
   private int cmdVmc;
-
-  // private int cmdVmc_N1;
+  private int cmdVmc_N1;
 
   private boolean init;
   private boolean evEstOn;
@@ -380,9 +379,6 @@ public class MainActivity extends AppCompatActivity {
 
     // Commande VMC
     cmd4.setOnClickListener(view -> {
-      cmdVmc = cmdVmc % 4;
- //     Log.d("debug", "cmdVmc" + ":" + cmdVmc);
-
       switch (cmdVmc) {
         case 0 :
           // Mode off (pas de vcm active, même ne mode programmée)
@@ -393,16 +389,15 @@ public class MainActivity extends AppCompatActivity {
           mqttHelper.publish(TOPIC_CMD_VMC, "1".getBytes());
           break;
         case 2 :
-          // Mode forcé lent (programmation off)
-          mqttHelper.publish(TOPIC_CMD_VMC, "3".getBytes());
-          mqttHelper.publish(VMC_BOARD_ACTION, PUBLISH_STATE_OFF.getBytes());
-          mqttHelper.publish(VMC_BOARD_ACTION, OFF.getBytes());
-          break;
-        case 3 :
           // Mode forcé rapide (programmation off)
           mqttHelper.publish(TOPIC_CMD_VMC, "2".getBytes());
           mqttHelper.publish(VMC_BOARD_ACTION, PUBLISH_STATE_ON.getBytes());
           break;
+        case 3 :
+          // Mode forcé lent (programmation off)
+          mqttHelper.publish(TOPIC_CMD_VMC, "3".getBytes());
+          mqttHelper.publish(VMC_BOARD_ACTION, PUBLISH_STATE_OFF.getBytes());
+          mqttHelper.publish(VMC_BOARD_ACTION, OFF.getBytes());
       }
     });
 
@@ -804,7 +799,15 @@ public class MainActivity extends AppCompatActivity {
         }
 
         int vmcStatus = Integer.parseInt(gpioPorts[GPIO_VMC]);
-
+//        if (vmcFast)
+//          return;
+//
+//        if (cmdVmc != cmdVmc_N1) {
+//          this.cmdVmc = cmdVmc + 1;
+//          cmdVmc_N1 = cmdVmc + 1;
+//        }
+//        Log.d("debug", "cmdVmc " +  cmdVmc);
+//        Log.d("debug", "vmcStatus " +  vmcStatus);
         switch (vmcStatus) {
           case VMC_STOP :
             cmd4.setBackgroundResource(R.mipmap.ic_vmc_off);
@@ -812,11 +815,11 @@ public class MainActivity extends AppCompatActivity {
             break;
           case VMC_ON :
             cmd4.setBackgroundResource(R.mipmap.ic_vmc_on);
-            setCmdVmc(2);
+            setCmdVmc(3);
             break;
           case VMC_ON_FAST :
             cmd4.setBackgroundResource(R.mipmap.ic_vmc_fast);
-            setCmdVmc(3);
+            setCmdVmc(2);
             break;
           case VMC_PROG_OFF :
             cmd4.setBackgroundResource(R.mipmap.ic_vmc_prog);
@@ -830,6 +833,7 @@ public class MainActivity extends AppCompatActivity {
             cmd4.setBackgroundResource(R.mipmap.ic_vmc_prog_fast);
             setCmdVmc(1);
             break;
+
         }
 
         if ("1".equals(gpioPorts[GPIO_EV_EST])) {
@@ -905,7 +909,7 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void setCmdVmc(int i) {
-      this.cmdVmc = (i + 1)%4;
+    this.cmdVmc = (i + 1)%4;
   }
 
   public void deliveryComplete(IMqttDeliveryToken token) {
