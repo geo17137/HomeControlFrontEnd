@@ -49,6 +49,15 @@ import java.util.Collections;
 
 import org.apache.commons.io.FileUtils;
 
+/*
+public class Secret {
+    static final String userName = "xxxxx";
+    static final String password = "xxxxx";
+
+    static final String LOCAL_ADRESS = "tcp://xxx.xxx.xxx.xxx:yyyy";
+    static final String ADDRESS = "tcp://zzzzz:yyyy";
+}
+ */
 public class MainActivity extends AppCompatActivity {
   final String TARGET_OFF = "";
   final String LOCAL_ADRESS = Secret.LOCAL_ADRESS;
@@ -63,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
   //  public static final int VMC = 4;
 
 // Se référer au client mqtt (projet platformio Esp32_HomeCtrl)
-// Numéro des pors GPIO relais
+// Numéro des ports GPIO relais
   private final int GPIO_ARROSAGE   = 0;
   private final int GPIO_IRRIGATION = 1;
   private final int GPIO_FOUR       = 2;
@@ -184,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
   private final String TOPIC_DLY_PARAM    = PREFIX + "homecontrol/dly_param";
   private final String TOPIC_GLOBAL_SCHED = PREFIX + "homecontrol/global_sched";
   private final String TOPIC_GPIO         = PREFIX + "homecontrol/gpio";
-  private final String TOPIC_DEFAUT_SUPRESSEUR=PREFIX+"homecontrol/defaut_reservoir";
+  private final String TOPIC_DEFAUT_SUPRESSEUR=PREFIX+"homecontrol/default_surpressor";
   private final String TOPIC_CIRCUIT2_STATUS  = "circuit2/status";
 
 
