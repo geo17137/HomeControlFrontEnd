@@ -59,7 +59,7 @@ public class Secret {
 }
  */
 public class MainActivity extends AppCompatActivity {
-  final String TARGET_OFF = "";
+  final String TARGET_OFF = "_";
   final String LOCAL_ADRESS = Secret.LOCAL_ADRESS;
   final String ADDRESS = Secret.ADDRESS;
 
