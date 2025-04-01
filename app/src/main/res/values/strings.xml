@@ -46,13 +46,14 @@
     <string name="vmc_programm_on">VMC heure mise sous tension</string>
     <string name="vmc_programm_off">VMC heure mise hors tension</string>
     <string name="active">Activé</string>
-    <string name="desactive">Desactivé</string>
+    <string name="desactive">Désactivé</string>
     <string name="IR_off_line">IR hors ligne</string>
     <string name="pac_ajust">Réglage PAC</string>
     <string name="pac_command">Commande PAC</string>
     <string name="pac_on">PAC on</string>
     <string name="pac_off">PAC off</string>
-    <string name="surpressor_dis">Surpresseur desactivé</string>
+    <string name="surpressor_dis">Surpresseur désactivé</string>
     <string name="surpressor_en">Surpresseur activé</string>
-
+    <string name="surpressor_security_off">Sécurité surpresseur</string>
+    <string name="surpressor_security_on">Sécurité surpresseuron</string>
 </resources>

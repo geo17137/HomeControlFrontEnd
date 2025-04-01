@@ -26,8 +26,9 @@ public class ParameterActivity extends AppCompatActivity implements  SeekBar.OnS
     private final int OFFSET_SUMMER_TIME_OFF    = 4;
     private final int OFFSET_LOG_STATUS         = 5;
     private final int OFFSET_SUPRESSOR_STATUS   = 6;
+    private final int OFFSET_SURPRESSOR_SECURIT_EN = 7;
 
-    private final int N_DLY_PARAM               = (OFFSET_SUPRESSOR_STATUS+1);
+    private final int N_DLY_PARAM               = (OFFSET_SURPRESSOR_SECURIT_EN+1);
 
     static  final int POWER_COOK                = 0;
     static  final int IRRIGATION                = 1;
@@ -47,6 +48,7 @@ public class ParameterActivity extends AppCompatActivity implements  SeekBar.OnS
     private Switch  switchSummer;
     private Switch  switchLogReport;
     private Switch switchSupressorDis;
+    private Switch switchSupressorSecurity;
     private SeekBar seekBarTimeOutSupressor;
     private SeekBar seekBarTimeTankFilling;
     private SeekBar seekBarTimeOutWaterringEV_Est;
@@ -170,6 +172,20 @@ public class ParameterActivity extends AppCompatActivity implements  SeekBar.OnS
                                 getResources().getString(R.string.surpressor_dis));
             }
         });
+;
+        switchSupressorSecurity = findViewById(R.id.switchSupressorSecurity);
+        switchSupressorSecurity.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean bval) {
+                if (!initialised)
+                    return;
+                itabDlyParam[OFFSET_SURPRESSOR_SECURIT_EN] = bval ? 1 : 0;
+//                switchSupressorSecurity.setText(
+//                        bval ?  getResources().getString(R.string.surpressor_security_on):
+//                                getResources().getString(R.string.surpressor_security_off));
+            }
+        });
+
         chkBoxSetGlobalSchedParam();
     }
 
@@ -286,6 +302,11 @@ public class ParameterActivity extends AppCompatActivity implements  SeekBar.OnS
         switchSupressorDis.setText(
                 bval ?  getResources().getString(R.string.surpressor_en):
                         getResources().getString(R.string.surpressor_dis));
+
+        bval = "1".equals(tabDlyParam[OFFSET_SURPRESSOR_SECURIT_EN]);
+        switchSupressorSecurity.setChecked(bval);
+        itabDlyParam[OFFSET_SURPRESSOR_SECURIT_EN] = bval ? 1 : 0;
+
         initialised = true;
     }
 

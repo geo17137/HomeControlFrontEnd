@@ -59,7 +59,7 @@ public class Secret {
 }
  */
 public class MainActivity extends AppCompatActivity {
-  final String TARGET_OFF = "_";
+  final String TARGET_OFF = "";
   final String LOCAL_ADRESS = Secret.LOCAL_ADRESS;
   final String ADDRESS = Secret.ADDRESS;
 
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
   private static final CharSequence SSID1 = "jeanbart";
   private static final CharSequence SSID2 = "jeanbart_5GHz";
   private static final CharSequence SSID3 = "jeanbart_plus";
-  private static final CharSequence SSID4 = "AndroidWifi1";
+  private static final CharSequence SSID4 = "AndroidWifi";
 
   //-----------------------
   //    Modes de fonct. VMC
