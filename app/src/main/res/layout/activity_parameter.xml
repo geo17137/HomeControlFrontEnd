@@ -7,11 +7,22 @@
     tools:context=".ParameterActivity">
 
     <Switch
-        android:id="@+id/switchSupressorDis"
-        android:layout_width="199dp"
+        android:id="@+id/switchSupressorSecurity"
+        android:layout_width="182dp"
         android:layout_height="26dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="64dp"
+        android:text="@string/surpressor_security_off"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.526"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switchSupressorDis" />
+
+    <Switch
+        android:id="@+id/switchSupressorDis"
+        android:layout_width="192dp"
+        android:layout_height="21dp"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="12dp"
         android:layout_marginEnd="64dp"
         android:text="@string/surpressor_dis"
         app:layout_constraintEnd_toEndOf="parent"
@@ -92,16 +103,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
         android:text="Actions a programmer"
         android:textAlignment="center"
         android:textColor="@color/teal_200"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.472"
+        app:layout_constraintHorizontal_bias="0.403"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switchSupressorDis" />
+        app:layout_constraintTop_toBottomOf="@+id/switchSupressorSecurity" />
 
     <TextView
         android:id="@+id/textView5"
@@ -151,10 +162,9 @@
 
     <Switch
         android:id="@+id/switchLogReport"
-        android:layout_width="160dp"
-        android:layout_height="29dp"
+        android:layout_width="157dp"
+        android:layout_height="30dp"
         android:layout_marginStart="64dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="64dp"
         android:text="@string/activer_les_logs"
         app:layout_constraintEnd_toEndOf="parent"
@@ -167,7 +177,6 @@
         android:layout_width="124dp"
         android:layout_height="22dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="4dp"
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -192,7 +201,6 @@
         android:layout_width="124dp"
         android:layout_height="22dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="4dp"
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -218,7 +226,6 @@
         android:layout_width="124dp"
         android:layout_height="22dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="4dp"
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -258,7 +265,6 @@
         android:layout_width="124dp"
         android:layout_height="22dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -282,7 +288,7 @@
         android:layout_width="169dp"
         android:layout_height="25dp"
         android:layout_marginStart="64dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="64dp"
         android:text="@string/heure_ete"
         app:layout_constraintEnd_toEndOf="parent"

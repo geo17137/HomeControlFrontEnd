@@ -10,12 +10,12 @@ import android.widget.TimePicker;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
 
 public class PowerPlageCookingActivity extends AppCompatActivity implements RadioButton.OnClickListener {
   final int DEVICE = Unic.CUISINE;
 
-  private TimePicker timePicker;
+  private TimePicker timePickerD;
+  private TimePicker timePickerF;
   private RadioButton[] radioButtons;
   private Switch switchActivation;
   private boolean isEnabledTimePicker = true;
@@ -33,8 +33,10 @@ public class PowerPlageCookingActivity extends AppCompatActivity implements Radi
     setTitle(R.string.AppTitle);
     cParam = Unic.getInstance().getcParam();
 
-    timePicker = findViewById(R.id.timePickerPac);
-    timePicker.setIs24HourView(true);
+    timePickerD = findViewById(R.id.timePickerPacD);
+    timePickerD.setIs24HourView(true);
+    timePickerF = findViewById(R.id.timePickerPacF);
+    timePickerF.setIs24HourView(true);
     radioButtons = new RadioButton[Unic.MAX_RADIO_BUTTONS];
     radioButtons[0] = findViewById(R.id.radioButtonPacOn);
     radioButtons[1] = findViewById(R.id.radioButtonPacOff);
@@ -44,8 +46,8 @@ public class PowerPlageCookingActivity extends AppCompatActivity implements Radi
 
     switchActivation = findViewById(R.id.id_switch_pac);
     // Init de la première zone
-    setTimePicker(0);
-
+    setTimePickerD(0);
+    setTimePickerF(0);
     switchActivation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
       @Override
       public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -57,7 +59,7 @@ public class PowerPlageCookingActivity extends AppCompatActivity implements Radi
       }
     });
 
-    timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+    timePickerF.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
       @Override
       public void onTimeChanged(TimePicker timePicker, int hour, int minute) {
         if (!isEnabledTimePicker) {
@@ -67,9 +69,20 @@ public class PowerPlageCookingActivity extends AppCompatActivity implements Radi
         cParam.set_mMax(minute, DEVICE, nRadioButton);
       }
     });
+    timePickerD.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+      @Override
+      public void onTimeChanged(TimePicker timePicker, int hour, int minute) {
+        if (!isEnabledTimePicker) {
+          return;
+        }
+        cParam.set_hMin(hour, DEVICE, nRadioButton);
+        cParam.set_mMin(minute, DEVICE, nRadioButton);
+      }
+    });
 
     chkBoxSetGlobalSchedParam();
   }
+
 
   @Override
   public void onClick(View v) {
@@ -77,15 +90,26 @@ public class PowerPlageCookingActivity extends AppCompatActivity implements Radi
     for (int i = 0; i < Unic.MAX_RADIO_BUTTONS; i++) {
       if (radioButtons[i].isChecked()) {
         nRadioButton = i;
-        setTimePicker(i);
+        setTimePickerD(i);
+        setTimePickerF(i);
       }
     }
   }
 
-  private void setTimePicker(int plage) {
+  private void setTimePickerD(int plage) {
     isEnabledTimePicker = false;
-    timePicker.setHour(cParam.ihMax(DEVICE, plage));
-    timePicker.setMinute(cParam.imMax(DEVICE, plage));
+    timePickerD.setHour(cParam.ihMin(DEVICE, plage));
+    timePickerD.setMinute(cParam.imMin(DEVICE, plage));
+    isEnabledTimePicker = true;
+    boolean enabled = cParam.isEnable(DEVICE, plage);
+    switchActivation.setChecked(enabled);
+    switchActivation.setText(enabled ? "Activé" : "Desactivé");
+  }
+
+  private void setTimePickerF(int plage) {
+    isEnabledTimePicker = false;
+    timePickerF.setHour(cParam.ihMax(DEVICE, plage));
+    timePickerF.setMinute(cParam.imMax(DEVICE, plage));
     isEnabledTimePicker = true;
     boolean enabled = cParam.isEnable(DEVICE, plage);
     switchActivation.setChecked(enabled);

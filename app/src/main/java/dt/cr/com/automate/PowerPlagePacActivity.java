@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
@@ -115,7 +114,7 @@ public class PowerPlagePacActivity extends AppCompatActivity implements RadioBut
 
     titleString = new String[2];
 
-    timePicker = findViewById(R.id.timePickerPac);
+    timePicker = findViewById(R.id.timePickerPacD);
     timePicker.setIs24HourView(true);
     radioButtons = new RadioButton[MAX_RADIO_BUTTONS];
     radioButtons[0] = findViewById(R.id.radioButtonPacOn);
