@@ -88,7 +88,7 @@ public class PowerPlagePacActivity extends AppCompatActivity implements RadioBut
     cParam = Unic.getInstance().getcParam();
 
 
-    switchActivation = findViewById(R.id.id_switch_pac);
+    switchActivation = findViewById(R.id.id_switch_enable);
     switchCmdPac = findViewById(R.id.id_switch_cmd_pac);
     switchCmdPac.setChecked(tabIrParam[0] == 1);
     if (tabIrParam[0] == 1)

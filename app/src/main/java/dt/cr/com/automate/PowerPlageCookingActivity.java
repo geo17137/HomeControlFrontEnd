@@ -1,6 +1,7 @@
 package dt.cr.com.automate;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -14,8 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 public class PowerPlageCookingActivity extends AppCompatActivity implements RadioButton.OnClickListener {
   final int DEVICE = Unic.CUISINE;
 
-  private TimePicker timePickerD;
-  private TimePicker timePickerF;
+  private TimePicker timePickerMin;
+  private TimePicker timePickerMax;
   private RadioButton[] radioButtons;
   private Switch switchActivation;
   private boolean isEnabledTimePicker = true;
@@ -33,10 +34,10 @@ public class PowerPlageCookingActivity extends AppCompatActivity implements Radi
     setTitle(R.string.AppTitle);
     cParam = Unic.getInstance().getcParam();
 
-    timePickerD = findViewById(R.id.timePickerPacD);
-    timePickerD.setIs24HourView(true);
-    timePickerF = findViewById(R.id.timePickerPacF);
-    timePickerF.setIs24HourView(true);
+    timePickerMin = findViewById(R.id.timePickerPacD);
+    timePickerMin.setIs24HourView(true);
+    timePickerMax = findViewById(R.id.timePickerPacF);
+    timePickerMax.setIs24HourView(true);
     radioButtons = new RadioButton[Unic.MAX_RADIO_BUTTONS];
     radioButtons[0] = findViewById(R.id.radioButtonPacOn);
     radioButtons[1] = findViewById(R.id.radioButtonPacOff);
@@ -44,10 +45,10 @@ public class PowerPlageCookingActivity extends AppCompatActivity implements Radi
     for (int i = 0; i < Unic.MAX_RADIO_BUTTONS; i++)
       radioButtons[i].setOnClickListener(this);
 
-    switchActivation = findViewById(R.id.id_switch_pac);
+    switchActivation = findViewById(R.id.id_switch_enable);
     // Init de la première zone
-    setTimePickerD(0);
-    setTimePickerF(0);
+    setTimePickerMin(0);
+    setTimePickerMax(0);
     switchActivation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
       @Override
       public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -59,7 +60,7 @@ public class PowerPlageCookingActivity extends AppCompatActivity implements Radi
       }
     });
 
-    timePickerF.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+    timePickerMax.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
       @Override
       public void onTimeChanged(TimePicker timePicker, int hour, int minute) {
         if (!isEnabledTimePicker) {
@@ -69,7 +70,7 @@ public class PowerPlageCookingActivity extends AppCompatActivity implements Radi
         cParam.set_mMax(minute, DEVICE, nRadioButton);
       }
     });
-    timePickerD.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+    timePickerMin.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
       @Override
       public void onTimeChanged(TimePicker timePicker, int hour, int minute) {
         if (!isEnabledTimePicker) {
@@ -90,26 +91,26 @@ public class PowerPlageCookingActivity extends AppCompatActivity implements Radi
     for (int i = 0; i < Unic.MAX_RADIO_BUTTONS; i++) {
       if (radioButtons[i].isChecked()) {
         nRadioButton = i;
-        setTimePickerD(i);
-        setTimePickerF(i);
+        setTimePickerMin(i);
+        setTimePickerMax(i);
       }
     }
   }
 
-  private void setTimePickerD(int plage) {
+  private void setTimePickerMin(int plage) {
     isEnabledTimePicker = false;
-    timePickerD.setHour(cParam.ihMin(DEVICE, plage));
-    timePickerD.setMinute(cParam.imMin(DEVICE, plage));
+    timePickerMin.setHour(cParam.ihMin(DEVICE, plage));
+    timePickerMin.setMinute(cParam.imMin(DEVICE, plage));
     isEnabledTimePicker = true;
     boolean enabled = cParam.isEnable(DEVICE, plage);
-    switchActivation.setChecked(enabled);
-    switchActivation.setText(enabled ? "Activé" : "Desactivé");
+//    switchActivation.setChecked(enabled);
+//    switchActivation.setText(enabled ? "Activé" : "Desactivé");
   }
 
-  private void setTimePickerF(int plage) {
+  private void setTimePickerMax(int plage) {
     isEnabledTimePicker = false;
-    timePickerF.setHour(cParam.ihMax(DEVICE, plage));
-    timePickerF.setMinute(cParam.imMax(DEVICE, plage));
+    timePickerMax.setHour(cParam.ihMax(DEVICE, plage));
+    timePickerMax.setMinute(cParam.imMax(DEVICE, plage));
     isEnabledTimePicker = true;
     boolean enabled = cParam.isEnable(DEVICE, plage);
     switchActivation.setChecked(enabled);
@@ -119,6 +120,7 @@ public class PowerPlageCookingActivity extends AppCompatActivity implements Radi
   public boolean onOptionsItemSelected(MenuItem item) {
     if (item.getItemId() == android.R.id.home) {
       String param = cParam.toString();
+//      Log.d("debug", param);
       Unic.getInstance().getMainActivity().writeParam(param);
       finish();
       return true;

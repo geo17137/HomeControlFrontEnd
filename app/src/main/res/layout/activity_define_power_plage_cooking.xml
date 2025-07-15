@@ -51,17 +51,17 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Switch
-        android:id="@+id/id_switch_pac"
+        android:id="@+id/id_switch_enable"
         android:layout_width="124dp"
         android:layout_height="48dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="208dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
         android:text="Activé"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timePickerPacD" />
+        app:layout_constraintTop_toBottomOf="@+id/timePickerPacF" />
 
     <RadioGroup
         android:layout_width="282dp"
@@ -73,7 +73,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/id_switch_pac">
+        app:layout_constraintTop_toBottomOf="@+id/id_switch_enable">
 
         <RadioButton
             android:id="@+id/radioButtonPacOn"
