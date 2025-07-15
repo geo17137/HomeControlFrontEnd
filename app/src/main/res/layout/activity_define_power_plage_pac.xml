@@ -147,7 +147,7 @@
 
 
     <TimePicker
-        android:id="@+id/timePickerPac"
+        android:id="@+id/timePickerPacD"
         android:layout_width="226dp"
         android:layout_height="183dp"
         android:layout_marginStart="32dp"
@@ -199,7 +199,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timePickerPac" />
+        app:layout_constraintTop_toBottomOf="@+id/timePickerPacD" />
 
     <TextView
         android:id="@+id/textViewTemp"
