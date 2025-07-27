@@ -16,7 +16,7 @@ import android.widget.TimePicker;
 public class PlageIrrigationActivity extends AppCompatActivity
     implements RadioButton.OnClickListener {
 
-  final int DEVICE = Unic.IRRIGTION_POTAGER;
+  final int DEVICE = Unic.IRRIGATION_POTAGER;
   private TimePicker timePicker;
   private RadioButton[] radioButtons;
   private Switch switchActivation;

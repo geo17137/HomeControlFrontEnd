@@ -589,6 +589,7 @@ public class MainActivity extends AppCompatActivity {
       itemWatchDog.setEnabled(enable);
       item_menu_prog_vmc.setEnabled(enable);
       item_menu_prog_pac.setEnabled(enable);
+      item_menu_parametrer_client.setEnabled(enable);
 //      item_menu_DureeArrosage.setEnabled(enable);
 //      item_menu_parametrer_client.setEnabled(enable);
 //      item_menu_reservoir.setEnabled(true);

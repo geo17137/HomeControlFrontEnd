@@ -7,14 +7,14 @@ import android.widget.ImageButton;
 class Unic {
 
   @SuppressLint("StaticFieldLeak")
-  final String version = "2024.07.16";
+  final String version = "2025.07.28";
 
   private static final Unic ourInstance = new Unic();
 
   // Position des entités dans la structure des paramètres
   public static final int CUISINE = 0;
-  public static final int IRRIGTION_POTAGER = 1;
-  public static final int IRRIGTION_FACADE_SUD = 2;
+  public static final int IRRIGATION_POTAGER = 1;
+  public static final int IRRIGATION_FACADE_SUD = 2;
   public static final int PAC = 3;
   public static final int VMC = 4;
 
