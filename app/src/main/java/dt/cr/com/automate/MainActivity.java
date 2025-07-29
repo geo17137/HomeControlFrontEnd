@@ -59,7 +59,7 @@ public class Secret {
 }
  */
 public class MainActivity extends AppCompatActivity {
-  final String TARGET_OFF = "";
+  final String TARGET_OFF = "_";
   final String LOCAL_ADRESS = Secret.LOCAL_ADRESS;
   final String ADDRESS = Secret.ADDRESS;
 
@@ -463,10 +463,9 @@ public class MainActivity extends AppCompatActivity {
         } else {
           textStatus.setText(getString(R.string.mqtt_ok));
           textStatus.setTextColor(Color.GREEN);
-          mqttHelper.publish(TOPIC_GET_PARAM, "".getBytes());
-        }
-        if (!paramGet) {
-          mqttHelper.publish(TOPIC_GET_PARAM, "".getBytes());
+          if (!paramGet) {
+            mqttHelper.publish(TOPIC_GET_PARAM, "".getBytes());
+          }
         }
         if (!isClientConnected) {
           paramGet = false;
@@ -740,13 +739,16 @@ public class MainActivity extends AppCompatActivity {
 
       case TOPIC_PARAM:
 //        isClientConnected = true;
-        paramGet = true;
+//        paramGet = true;
         timout = 0;
         Unic.getInstance().getcParam().setParam(reponse.trim());
         //        String debug = Unic.getInstance().getcParam().paramDebug();
         //        Log.d("debug", debug);
         // Une fois les paramètres obtenus, acquerir les paramètres globaux ScheduledParam
-        mqttGetGlobalScheduledParam();
+        if (!paramGet) {
+          mqttGetGlobalScheduledParam();
+          paramGet = true;
+        }
         return;
 
       case TOPIC_DLY_PARAM:
