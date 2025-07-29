@@ -20,7 +20,7 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class PlageIrrigationVanneEstActivity extends AppCompatActivity implements View.OnClickListener {
-  final int DEVICE = Unic.IRRIGTION_FACADE_SUD;
+  final int DEVICE = Unic.IRRIGATION_FACADE_SUD;
   final int MIN_SEEK_BAR_DUREE = 5;
   final int MAX_SEEK_BAR_DUREE = 20;
   final int MAX_RADIO_BUTTONS = 3;
