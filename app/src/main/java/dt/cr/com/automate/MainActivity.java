@@ -390,14 +390,13 @@ public class MainActivity extends AppCompatActivity {
           break;
         case 2:
           // Mode forcé rapide (programmation off)
+          // Carte déportée pilotée par l'automate
           mqttHelper.publish(TOPIC_CMD_VMC, "2".getBytes());
-          mqttHelper.publish(VMC_BOARD_ACTION, PUBLISH_STATE_ON.getBytes());
           break;
         case 3:
           // Mode forcé lent (programmation off)
+          // Carte déportée pilotée par l'automate
           mqttHelper.publish(TOPIC_CMD_VMC, "3".getBytes());
-          mqttHelper.publish(VMC_BOARD_ACTION, PUBLISH_STATE_OFF.getBytes());
-          mqttHelper.publish(VMC_BOARD_ACTION, OFF.getBytes());
       }
     });
 
