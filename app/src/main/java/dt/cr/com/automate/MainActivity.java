@@ -696,7 +696,7 @@ public class MainActivity extends AppCompatActivity {
 //    Log.d("debug", "" +cmd6.isEnabled());
     String reponse = message.toString();
 //    Log.d("debug", topic + ":" + reponse);
-    isClientConnected = true;
+//    isClientConnected = true;
     switch (topic) {
       case PUB_POWER_STATUS:
         // L'alimentation est branchée sur le contact repos
@@ -718,6 +718,7 @@ public class MainActivity extends AppCompatActivity {
         return;
 
       case TOPIC_PARAM:
+        isClientConnected = true;
 //        paramGet = true;
         Unic.getInstance().getcParam().setParam(reponse.trim());
         //        String debug = Unic.getInstance().getcParam().paramDebug();
