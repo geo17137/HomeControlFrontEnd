@@ -3,7 +3,7 @@
     <string name="cnx_nok">Attente du client</string>
     <string name="cnx_ok">Connecté au client</string>
     <string name="action_exit">Quitter</string>
-    <string name="action_reservoir">Réamorcer réservoir</string>
+    <string name="action_reservoir">Relancer surpresseur</string>
     <string name="text_status">Status connexion</string>
     <string name="text_arrosage">Déclenche l\'arrosage avec la lance</string>
     <string name="text_none"></string>
