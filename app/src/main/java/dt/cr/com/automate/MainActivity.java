@@ -607,7 +607,8 @@ public class MainActivity extends AppCompatActivity {
         break;
       case R.id.id_action_pac:
         intent = new Intent(MainActivity.this, PowerPlagePacActivity.class);
-        startActivity(intent);
+        if (intent!=null)
+          startActivity(intent);
         break;
       case R.id.id_action_irrigation:
         intent = new Intent(MainActivity.this, PlageIrrigationActivity.class);

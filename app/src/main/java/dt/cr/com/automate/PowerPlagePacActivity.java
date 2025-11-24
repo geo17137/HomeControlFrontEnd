@@ -86,7 +86,8 @@ public class PowerPlagePacActivity extends AppCompatActivity implements RadioBut
     for (int i=0; i < MAX_IR_PARAM; i++)
       tabIrParam[i] = Integer.parseInt(irParam.split(":")[i]);
     cParam = Unic.getInstance().getcParam();
-
+    if (cParam==null)
+      return;
 
     switchActivation = findViewById(R.id.id_switch_enable);
     switchCmdPac = findViewById(R.id.id_switch_cmd_pac);
@@ -325,7 +326,8 @@ public class PowerPlagePacActivity extends AppCompatActivity implements RadioBut
 
   private void chkBoxSetGlobalSchedParam() {
     String[] stabGlobalSchedParam = Unic.getInstance().getGlobalSchedParam();
-    switchActivation.setEnabled("1".equals(stabGlobalSchedParam[ParameterActivity.PAC]));
+    if (stabGlobalSchedParam !=null)
+      switchActivation.setEnabled("1".equals(stabGlobalSchedParam[ParameterActivity.PAC]));
   }
 
 //  public void setIrParam( String irParam) {
