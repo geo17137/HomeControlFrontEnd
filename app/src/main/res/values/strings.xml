@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Automate</string>
     <string name="cnx_nok">Attente du client</string>
-    <string name="cnx_ok">Connecté au client</string>
+    <string name="cnx_ok">Connecté</string>
     <string name="action_exit">Quitter</string>
     <string name="action_reservoir">Relancer surpresseur</string>
     <string name="text_status">Status connexion</string>

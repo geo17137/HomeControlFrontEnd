@@ -2,6 +2,7 @@ package dt.cr.com.automate;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
@@ -45,8 +46,8 @@ public class ParameterActivity extends AppCompatActivity implements  SeekBar.OnS
     private final int MInTimeOutWaterringEV_Est = 5;
     private final int MaxTimeOutSupressor       = 100;
     private final int MInTimeOutSupressor       = 5; // 50
-    private Switch  switchSummer;
-    private Switch  switchLogReport;
+    private Switch switchSummer;
+    private Switch switchLogReport;
     private Switch switchSupressorDis;
     private Switch switchSupressorSecurity;
     private SeekBar seekBarTimeOutSupressor;
@@ -109,10 +110,7 @@ public class ParameterActivity extends AppCompatActivity implements  SeekBar.OnS
         checkBoxArrosage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (checkBoxArrosage.isChecked())
-                    Unic.getInstance().setArrosagePermanent(true);
-                else
-                    Unic.getInstance().setArrosagePermanent(false);
+                Unic.getInstance().setArrosagePermanent(checkBoxArrosage.isChecked());
             }
         });
 //        if (Unic.getInstance().isArrosagePermanent())
@@ -172,7 +170,6 @@ public class ParameterActivity extends AppCompatActivity implements  SeekBar.OnS
                                 getResources().getString(R.string.surpressor_dis));
             }
         });
-;
         switchSupressorSecurity = findViewById(R.id.switchSupressorSecurity);
         switchSupressorSecurity.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

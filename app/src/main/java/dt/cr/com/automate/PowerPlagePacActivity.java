@@ -226,7 +226,7 @@ public class PowerPlagePacActivity extends AppCompatActivity implements RadioBut
         if (isChecked) {
           tabIrParam[0] = 1;
           switchCmdPac.setChecked(true);
-        };
+        }
 //        tabIrParam[0] = isChecked ? 1 : 0;
         switchActivation.setText(isChecked ?
                 getResources().getText(R.string.active) :

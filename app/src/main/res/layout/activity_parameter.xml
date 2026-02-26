@@ -303,7 +303,8 @@
         android:layout_marginTop="8dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintTop_toBottomOf="@+id/checkBoxVMC"
-        tools:layout_editor_absoluteX="1dp" />
+        tools:layout_editor_absoluteX="1dp"
+        tools:ignore="MissingConstraints" />
 
     <CheckBox
         android:id="@+id/checkBoxArrosage"

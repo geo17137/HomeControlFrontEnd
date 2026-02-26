@@ -51,7 +51,7 @@ public class PlageIrrigationVanneEstActivity extends AppCompatActivity implement
     textTempo = findViewById(R.id.textViewDuree);
     textDebit= findViewById(R.id.textViewDebit);
     int iDebit = cParam.ihMin(DEVICE, 3);
-    textDebit.setText("Débit " + Integer.toString((iDebit*10)/2)  + "%");
+    textDebit.setText("Débit " + (iDebit * 10) / 2 + "%");
     tempo = new int[MAX_RADIO_BUTTONS];
 
     timePicker = findViewById(R.id.timePickerEst);

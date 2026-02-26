@@ -19,30 +19,18 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.Network;
-import android.net.NetworkInfo;
-import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.text.Html;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
-
-import org.eclipse.paho.android.service.MqttAndroidClient;
-import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
-import org.eclipse.paho.client.mqttv3.IMqttToken;
-import org.eclipse.paho.client.mqttv3.MqttException;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -85,8 +73,8 @@ public class MainActivity extends AppCompatActivity {
   private final int GPIO_VMC = 4;
   private final int GPIO_PAC = 5;
 
-  private int testMqttCounter = 0;
-  private int testClientCounter = 0;
+  private final int testMqttCounter = 0;
+  private final int testClientCounter = 0;
   private long lastTouchTime = 0;
   private long currentTouchTime = 0;
 
@@ -141,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
   private boolean paramGet;
   private Runnable runnable;
   private Handler handler;
-  private MqttHelper mqttHelper;
+  private MqttHandler mqttHandler;
   private StringBuilder logBuffer;
 
   private final String PREFIX = TARGET_OFF;
@@ -201,8 +189,6 @@ public class MainActivity extends AppCompatActivity {
   // Commandes
   private static final String ON = "on";
   private static final String OFF = "off";
-  // Commandes spécific VMC
-  private final String GET_STATUS = "get_status";
   private final String PUBLISH_STATE_ON = "pub_on";
   private final String PUBLISH_STATE_OFF = "pub_off";
 
@@ -271,7 +257,7 @@ public class MainActivity extends AppCompatActivity {
     }
   }
 
-  public boolean getWifiInfo(Context context) {
+  public boolean getWifiInfo() {
     // Attention il faut que le GPS soit activé !!!
     WifiManager wm = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
     String ssid = wm.getConnectionInfo().getSSID();
@@ -323,17 +309,18 @@ public class MainActivity extends AppCompatActivity {
     Unic.getInstance().set_this(this);
     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     setProtect();
-    if (getWifiInfo(this)) {
+    if (getWifiInfo()) {
       serverMqtt = LOCAL_ADRESS;
     } else {
       serverMqtt = getBrocker();
     }
     Unic.getInstance().setBrockerAdr(serverMqtt);
-    mqttHelper = new MqttHelper(this, serverMqtt);
+    mqttHandler = new MqttHandler(this);
+    mqttHandler.connect();
 
     cmd1.setOnClickListener(View -> {
       if (arrosageEncours) {
-        mqttHelper.publish(TOPIC_CMD_ARROSAGE, "0".getBytes());
+        mqttHandler.publish(TOPIC_CMD_ARROSAGE, "0".getBytes());
         arrosageEncours = false;
         return;
       }
@@ -343,9 +330,9 @@ public class MainActivity extends AppCompatActivity {
         lastTouchTime = 0;
         currentTouchTime = 0;
         if (Unic.getInstance().isArrosagePermanent()) {
-          mqttHelper.publish(TOPIC_CMD_ARROSAGE, "2".getBytes());
+          mqttHandler.publish(TOPIC_CMD_ARROSAGE, "2".getBytes());
         } else {
-          mqttHelper.publish(TOPIC_CMD_ARROSAGE, "1".getBytes());
+          mqttHandler.publish(TOPIC_CMD_ARROSAGE, "1".getBytes());
         }
       }
     });
@@ -354,7 +341,7 @@ public class MainActivity extends AppCompatActivity {
       @Override
       public void onClick(View view) {
         if (irrigationEnCours) {
-          mqttHelper.publish(TOPIC_CMD_IRRIGATION, "0".getBytes());
+          mqttHandler.publish(TOPIC_CMD_IRRIGATION, "0".getBytes());
           irrigationEnCours = false;
           return;
         }
@@ -363,16 +350,16 @@ public class MainActivity extends AppCompatActivity {
         if (currentTouchTime - lastTouchTime < 450) {
           lastTouchTime = 0;
           currentTouchTime = 0;
-          mqttHelper.publish(TOPIC_CMD_IRRIGATION, "1".getBytes());
+          mqttHandler.publish(TOPIC_CMD_IRRIGATION, "1".getBytes());
         }
       }
     });
 
     cmd3.setOnClickListener(view -> {
       if (status_four) {
-        mqttHelper.publish(TOPIC_CMD_CUISINE, "0".getBytes());
+        mqttHandler.publish(TOPIC_CMD_CUISINE, "0".getBytes());
       } else {
-        mqttHelper.publish(TOPIC_CMD_CUISINE, "1".getBytes());
+        mqttHandler.publish(TOPIC_CMD_CUISINE, "1".getBytes());
       }
 
     });
@@ -382,30 +369,30 @@ public class MainActivity extends AppCompatActivity {
       switch (cmdVmc) {
         case 0:
           // Mode off (pas de vcm active, même ne mode programmée)
-          mqttHelper.publish(TOPIC_CMD_VMC, "0".getBytes());
+          mqttHandler.publish(TOPIC_CMD_VMC, "0".getBytes());
           break;
         case 1:
           // Mode programmé, lent ou rapide suivant programme
-          mqttHelper.publish(TOPIC_CMD_VMC, "1".getBytes());
+          mqttHandler.publish(TOPIC_CMD_VMC, "1".getBytes());
           break;
         case 2:
           // Mode forcé rapide (programmation off)
           // Carte déportée pilotée par l'automate
-          mqttHelper.publish(TOPIC_CMD_VMC, "2".getBytes());
+          mqttHandler.publish(TOPIC_CMD_VMC, "2".getBytes());
           break;
         case 3:
           // Mode forcé lent (programmation off)
           // Carte déportée pilotée par l'automate
-          mqttHelper.publish(TOPIC_CMD_VMC, "3".getBytes());
+          mqttHandler.publish(TOPIC_CMD_VMC, "3".getBytes());
       }
     });
 
     cmd5.setOnClickListener(view -> {
       if (evEstOn) {
-        mqttHelper.publish(TOPIC_CMD_VANNE_EST, "0".getBytes());
+        mqttHandler.publish(TOPIC_CMD_VANNE_EST, "0".getBytes());
         cmd5.setBackgroundResource(R.mipmap.ic_arrosage_est_off);
       } else {
-        mqttHelper.publish(TOPIC_CMD_VANNE_EST, "1".getBytes());
+        mqttHandler.publish(TOPIC_CMD_VANNE_EST, "1".getBytes());
         cmd5.setBackgroundResource(R.mipmap.ic_arrosage_est_on_prog);
       }
     });
@@ -422,12 +409,12 @@ public class MainActivity extends AppCompatActivity {
         if (statusCmd_PAC == 1) {
           // Coupure PAC
           if (!arretEncours) {
-            mqttHelper.publish(TOPIC_CMD_PAC, "1".getBytes());
+            mqttHandler.publish(TOPIC_CMD_PAC, "1".getBytes());
           } else {
-            mqttHelper.publish(TOPIC_CMD_PAC, "0".getBytes());
+            mqttHandler.publish(TOPIC_CMD_PAC, "0".getBytes());
           }
         } else {
-          mqttHelper.publish(TOPIC_CMD_PAC, "0".getBytes());
+          mqttHandler.publish(TOPIC_CMD_PAC, "0".getBytes());
         }
       }
     });
@@ -437,11 +424,12 @@ public class MainActivity extends AppCompatActivity {
       Tâche de surveillance des entrées GPIO bistables
       Désactivé en arrière plan
      */
+    
     handler = new Handler();
     handler.postDelayed(runnable = new Runnable() {
       @Override
       public void run() {
-        if (!mqttHelper.isConnected()) {
+        if (!mqttHandler.isConnected()) {
           textStatus.setText(R.string.mqtt_nok);
           textStatus.setTextColor(Color.RED);
           setMenuEnabled(false);
@@ -451,13 +439,13 @@ public class MainActivity extends AppCompatActivity {
           if (isClientConnected) {
             textStatus.setText(R.string.cnx_ok);
             textStatus.setTextColor(Color.GREEN);
-            mqttHelper.publish(TOPIC_GET_GPIO, "".getBytes());
-            mqttHelper.publish(TOPIC_PAC_IR_PARAM_GET, "".getBytes());
+            mqttHandler.publish(TOPIC_GET_GPIO, "".getBytes());
+            mqttHandler.publish(TOPIC_PAC_IR_PARAM_GET, "".getBytes());
             setMenuEnabled(true);
           } else {
             textStatus.setText(R.string.cnx_nok);
             textStatus.setTextColor(Color.RED);
-            mqttHelper.publish(TOPIC_GET_PARAM, "".getBytes());
+            mqttHandler.publish(TOPIC_GET_PARAM, "".getBytes());
             setMenuEnabled(false);
           }
         }
@@ -510,15 +498,14 @@ public class MainActivity extends AppCompatActivity {
 //
 //    for (; i < MAX_PARAM - 1; i++)
 //      dataParam.append(Unic.getInstance().getcParam().getTabParam()[i]).append(":");
-////      dataParam.append(Unic.getInstance().getParamAutomate()[i]).append(":");
 //    dataParam.append(Unic.getInstance().getcParam().getTabParam()[i]);
-//    mqttHelper.publish(TOPIC_WRITE_PARAM,  dataParam.toString().getBytes());
+//    mqttHandler.publish(TOPIC_WRITE_PARAM,  dataParam.toString().getBytes());
 //  }
 
   public void writeParam(String param) {
 //    Log.d("debug", Unic.getInstance().getcParam().paramDebug());
 //    Log.d("debug", param);
-    mqttHelper.publish(TOPIC_WRITE_PARAM, param.getBytes());
+    mqttHandler.publish(TOPIC_WRITE_PARAM, param.getBytes());
   }
 
   private void signalerDefautPompe() {
@@ -575,129 +562,88 @@ public class MainActivity extends AppCompatActivity {
   @Override
   public boolean onOptionsItemSelected(final MenuItem item) {
     Intent intent;
-//    Log.d("debug", "id menu =" + item.getItemId());
-    switch (item.getItemId()) {
-      case R.id.id_action_portail:
-        try {
-          Intent i = null;
-          if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.CUPCAKE) {
-            i = getPackageManager().getLaunchIntentForPackage("dt.cr.com.portailmqtt");
-          }
-          if (i == null) throw new PackageManager.NameNotFoundException();
-          i.addCategory(Intent.CATEGORY_LAUNCHER);
-          startActivity(i);
-        } catch (PackageManager.NameNotFoundException e) {
-        }
-        break;
-      case R.id.id_action_garage:
-        try {
-          Intent i = null;
-          if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.CUPCAKE) {
-            i = getPackageManager().getLaunchIntentForPackage("dt.cr.com.garage");
-          }
-          if (i == null) throw new PackageManager.NameNotFoundException();
-          i.addCategory(Intent.CATEGORY_LAUNCHER);
-          startActivity(i);
-        } catch (PackageManager.NameNotFoundException e) {
-        }
-        break;
-      case R.id.id_action_cooking:
-        intent = new Intent(MainActivity.this, PowerPlageCookingActivity.class);
-        startActivity(intent);
-        break;
-      case R.id.id_action_pac:
-        intent = new Intent(MainActivity.this, PowerPlagePacActivity.class);
-        if (intent!=null)
-          startActivity(intent);
-        break;
-      case R.id.id_action_irrigation:
-        intent = new Intent(MainActivity.this, PlageIrrigationActivity.class);
-        startActivity(intent);
-        break;
-      case R.id.id_action_parametrer_client:
-        intent = new Intent(MainActivity.this, ParameterActivity.class);
-        startActivity(intent);
-        break;
-      case R.id.id_action_reservoir:
-        mqttHelper.publish(TOPIC_CMD_REAMORCER, "".getBytes());
-        item_menu_reservoir.setEnabled(false);
-        break;
-      case R.id.id_action_irrigationEst:
-        intent = new Intent(MainActivity.this, PlageIrrigationVanneEstActivity.class);
-        startActivity(intent);
-        break;
-      case R.id.id_action_protect:
-        intent = new Intent(MainActivity.this, IconParameter.class);
-        startActivity(intent);
-        break;
-      case R.id.id_action_exit:
-        System.exit(0);
-        return true;
-      case R.id.id_action_reboot:
-        mqttHelper.publish(TOPIC_REBOOT, "".getBytes());
-        break;
-      case R.id.id_a_propos:
-        intent = new Intent(MainActivity.this, AProposActivity.class);
-        startActivity(intent);
-        break;
-      case R.id.id_action_logs:
-        intent = new Intent(MainActivity.this, LogsActivity.class);
-        startActivity(intent);
-        break;
-//      case R.id.id_power_off:
-//        mqttHelper.publish(SUB_GPIO0_ACTION,
-//              powerOn ? ON.getBytes() : OFF.getBytes());
-//        if (powerOn) {
-//          itemPower.setTitle(R.string.action_power_off);
-//        }
-//        else {
-//          itemPower.setTitle(R.string.action_power_on);
-//        }
-//        break;
-      case R.id.id_watch_dog_off:
-        mqttHelper.publish(TOPIC_WATCH_DOG_OFF, "".getBytes());
-        break;
-
-      case R.id.id_action_prog_vmc:
-        intent = new Intent(MainActivity.this, VmcActivity.class);
-        startActivity(intent);
+    int id = item.getItemId();
+    if (id == R.id.id_action_portail) {
+      try {
+        Intent i = null;
+        i = getPackageManager().getLaunchIntentForPackage("dt.cr.com.portailmqtt");
+        if (i == null) throw new PackageManager.NameNotFoundException();
+        i.addCategory(Intent.CATEGORY_LAUNCHER);
+        startActivity(i);
+      } catch (PackageManager.NameNotFoundException e) {
+      }
+    } else if (id == R.id.id_action_garage) {
+      try {
+        Intent i = null;
+        i = getPackageManager().getLaunchIntentForPackage("dt.cr.com.garage");
+        if (i == null) throw new PackageManager.NameNotFoundException();
+        i.addCategory(Intent.CATEGORY_LAUNCHER);
+        startActivity(i);
+      } catch (PackageManager.NameNotFoundException e) {
+      }
+    } else if (id == R.id.id_action_cooking) {
+      intent = new Intent(MainActivity.this, PowerPlageCookingActivity.class);
+      startActivity(intent);
+    } else if (id == R.id.id_action_pac) {
+      intent = new Intent(MainActivity.this, PowerPlagePacActivity.class);
+      startActivity(intent);
+    } else if (id == R.id.id_action_irrigation) {
+      intent = new Intent(MainActivity.this, PlageIrrigationActivity.class);
+      startActivity(intent);
+    } else if (id == R.id.id_action_parametrer_client) {
+      intent = new Intent(MainActivity.this, ParameterActivity.class);
+      startActivity(intent);
+    } else if (id == R.id.id_action_reservoir) {
+      mqttHandler.publish(TOPIC_CMD_REAMORCER, "".getBytes());
+      item_menu_reservoir.setEnabled(false);
+    } else if (id == R.id.id_action_irrigationEst) {
+      intent = new Intent(MainActivity.this, PlageIrrigationVanneEstActivity.class);
+      startActivity(intent);
+    } else if (id == R.id.id_action_protect) {
+      intent = new Intent(MainActivity.this, IconParameter.class);
+      startActivity(intent);
+    } else if (id == R.id.id_action_exit) {
+      System.exit(0);
+      return true;
+    } else if (id == R.id.id_action_reboot) {
+      mqttHandler.publish(TOPIC_REBOOT, "".getBytes());
+    } else if (id == R.id.id_a_propos) {
+      intent = new Intent(MainActivity.this, AProposActivity.class);
+      startActivity(intent);
+    } else if (id == R.id.id_action_logs) {
+      intent = new Intent(MainActivity.this, LogsActivity.class);
+      startActivity(intent);
+    } else if (id == R.id.id_watch_dog_off) {
+      mqttHandler.publish(TOPIC_WATCH_DOG_OFF, "".getBytes());
+    } else if (id == R.id.id_action_prog_vmc) {
+      intent = new Intent(MainActivity.this, VmcActivity.class);
+      startActivity(intent);
     }
     return super.onOptionsItemSelected(item);
   }
 
-  public void connectComplete(MqttAndroidClient mqttAndroidClient) {
-    try {
+  public void connectComplete() {
       //Successful connection requires all client subscription relationships to be uploaded
-      mqttAndroidClient.subscribe(TOPIC_READ_VERSION, 0);
-      mqttAndroidClient.subscribe(TOPIC_READ_LOGS, 0);
-      mqttAndroidClient.subscribe(TOPIC_PARAM, 0);
-      mqttAndroidClient.subscribe(TOPIC_DLY_PARAM, 0);
-      mqttAndroidClient.subscribe(TOPIC_GLOBAL_SCHED, 0);
-      mqttAndroidClient.subscribe(TOPIC_GPIO, 0);
-      mqttAndroidClient.subscribe(TOPIC_DEFAUT_SUPRESSEUR, 0);
-//      mqttAndroidClient.subscribe(PUB_POWER_STATUS, 0);
-      mqttAndroidClient.subscribe(TOPIC_PAC_IR_PARAM_PUB, 0);
-      mqttAndroidClient.subscribe(TOPIC_PAC_IR_VERSION, 0);
-//      mqttAndroidClient.subscribe(TOPIC_VMC_STATUS, 0);
-      mqttAndroidClient.subscribe(TOPIC_CIRCUIT2_STATUS, 0);
+      mqttHandler.subscribe(TOPIC_READ_VERSION, 0);
+      mqttHandler.subscribe(TOPIC_READ_LOGS, 0);
+      mqttHandler.subscribe(TOPIC_PARAM, 0);
+      mqttHandler.subscribe(TOPIC_DLY_PARAM, 0);
+      mqttHandler.subscribe(TOPIC_GLOBAL_SCHED, 0);
+      mqttHandler.subscribe(TOPIC_GPIO, 0);
+      mqttHandler.subscribe(TOPIC_DEFAUT_SUPRESSEUR, 0);
+//      mqttHandler.subscribe(PUB_POWER_STATUS, 0);
+      mqttHandler.subscribe(TOPIC_PAC_IR_PARAM_PUB, 0);
+      mqttHandler.subscribe(TOPIC_PAC_IR_VERSION, 0);
+//      mqttHandler.subscribe(TOPIC_VMC_STATUS, 0);
+      mqttHandler.subscribe(TOPIC_CIRCUIT2_STATUS, 0);
 
-      mqttHelper.publish(TOPIC_GET_PARAM, "".getBytes());
-      mqttHelper.publish(TOPIC_GET_GPIO, "".getBytes());
-      mqttHelper.publish(TOPIC_PAC_IR_PARAM_GET, "".getBytes());
-    } catch (MqttException e) {
-//      Log.d(TAG, "subscribe ex" );
-    }
+      mqttHandler.publish(TOPIC_GET_PARAM, "".getBytes());
+      mqttHandler.publish(TOPIC_GET_GPIO, "".getBytes());
+      mqttHandler.publish(TOPIC_PAC_IR_PARAM_GET, "".getBytes());
   }
 
-  public void connectionLost(Throwable cause) {
-    // mqttConnected = false;
-  }
 
-  public void messageArrived(String topic, MqttMessage message) {
-//    Log.d("debug", "" +cmd6.isEnabled());
-    String reponse = message.toString();
-//    Log.d("debug", topic + ":" + reponse);
-//    isClientConnected = true;
+  public void messageArrived(String topic, String reponse) {
     switch (topic) {
       case PUB_POWER_STATUS:
         // L'alimentation est branchée sur le contact repos
@@ -879,7 +825,6 @@ public class MainActivity extends AppCompatActivity {
         logBuffer.delete(0, logBuffer.length() - 1);
       case TOPIC_CIRCUIT2_STATUS:
         Unic.getInstance().setCircuit2Status(reponse);
-        return;
     }
   }
 
@@ -887,94 +832,78 @@ public class MainActivity extends AppCompatActivity {
     this.cmdVmc = (i + 1) % 4;
   }
 
-  public void deliveryComplete(IMqttDeliveryToken token) {
-  }
-
-  public void connected() {
-  }
-
-  public void onFailure(IMqttToken asyncActionToken) {
-  }
-
   public void readVersion() {
-    mqttHelper.publish(TOPIC_GET_VERSION, "".getBytes());
-    mqttHelper.publish(TOPIC_PAC_IR_VERSION_GET, "".getBytes());
+    mqttHandler.publish(TOPIC_GET_VERSION, "".getBytes());
+    mqttHandler.publish(TOPIC_PAC_IR_VERSION_GET, "".getBytes());
   }
 
   public void readLogs() {
-    mqttHelper.publish(TOPIC_LOGS_GET, "".getBytes());
+    mqttHandler.publish(TOPIC_LOGS_GET, "".getBytes());
   }
 
   public void clearLogs() {
-    mqttHelper.publish(TOPIC_CLEAR_LOGS, "".getBytes());
+    mqttHandler.publish(TOPIC_CLEAR_LOGS, "".getBytes());
   }
 
   public void setSummerTime(boolean b) {
-//    mqttHelper.publish(TOPIC_TIME_SUMMER_OFF, (b ? "2" : "1").getBytes());
+//    mqttHandler.publish(TOPIC_TIME_SUMMER_OFF, (b ? "2" : "1").getBytes());
   }
 
   public void setDisableLog(String status) {
-//    mqttHelper.publish(TOPIC_SET_LOG_STATUS, status.getBytes());
+//    mqttHandler.publish(TOPIC_SET_LOG_STATUS, status.getBytes());
   }
 
   public void getIOTLogStatus() {
-//    mqttHelper.publish(TOPIC_GET_LOG_STATUS, "". getBytes());
+//    mqttHandler.publish(TOPIC_GET_LOG_STATUS, "". getBytes());
   }
 
   public void writeIrParam(String param) {
-    mqttHelper.publish(TOPIC_PAC_IR_PARAM_SET, param.getBytes());
-    //mqttHelper.publish(TOPIC_PAC_IR_PARAM_APPLY, "".getBytes());
+    mqttHandler.publish(TOPIC_PAC_IR_PARAM_SET, param.getBytes());
+    //mqttHandler.publish(TOPIC_PAC_IR_PARAM_APPLY, "".getBytes());
   }
 
   public void setPacActive(boolean b) {
     if (b)
-      mqttHelper.publish(TOPIC_PAC_IR_ON, "".getBytes());
+      mqttHandler.publish(TOPIC_PAC_IR_ON, "".getBytes());
     else
-      mqttHelper.publish(TOPIC_PAC_IR_OFF, "".getBytes());
+      mqttHandler.publish(TOPIC_PAC_IR_OFF, "".getBytes());
   }
 
   public void setTemp(String temp) {
-    mqttHelper.publish(TOPIC_PAC_IR_TEMP, temp.getBytes());
+    mqttHandler.publish(TOPIC_PAC_IR_TEMP, temp.getBytes());
   }
 
   public void setMode(String mode) {
-    mqttHelper.publish(TOPIC_PAC_IR_MODE, mode.getBytes());
+    mqttHandler.publish(TOPIC_PAC_IR_MODE, mode.getBytes());
   }
 
   public void setFan(String fan) {
-    mqttHelper.publish(TOPIC_PAC_IR_FAN, fan.getBytes());
+    mqttHandler.publish(TOPIC_PAC_IR_FAN, fan.getBytes());
   }
 
   public void setVanne(String vanne) {
-    mqttHelper.publish(TOPIC_PAC_IR_VANNE, vanne.getBytes());
+    mqttHandler.publish(TOPIC_PAC_IR_VANNE, vanne.getBytes());
   }
 
   public void getDlyParam() {
-    mqttHelper.publish(TOPIC_GET_DLY_PARAM, "".getBytes());
+    mqttHandler.publish(TOPIC_GET_DLY_PARAM, "".getBytes());
   }
 
   public void writeDlyParam(String dlyParam) {
-    mqttHelper.publish(TOPIC_WRITE_DLY_PARAM, dlyParam.getBytes());
+    mqttHandler.publish(TOPIC_WRITE_DLY_PARAM, dlyParam.getBytes());
   }
 
   public void mqttGetGlobalScheduledParam() {
-    mqttHelper.publish(TOPIC_GET_GLOBAL_SCHED, "".getBytes());
+    mqttHandler.publish(TOPIC_GET_GLOBAL_SCHED, "".getBytes());
   }
 
   public void writeScheduledParam(String scheduledParam) {
 //    Log.d("debug", scheduledParam);
-    mqttHelper.publish(TOPIC_WRITE_GLOBAL_SCHED, scheduledParam.getBytes());
+    mqttHandler.publish(TOPIC_WRITE_GLOBAL_SCHED, scheduledParam.getBytes());
   }
 
   public void setVanneCircuit2(boolean isChecked) {
-    mqttHelper.publish(TOPIC_CIRCUIT2_ACTION, isChecked ? "on".getBytes() : "off".getBytes());
+    mqttHandler.publish(TOPIC_CIRCUIT2_ACTION, isChecked ? "on".getBytes() : "off".getBytes());
   }
 
-  public void connectionLost() {
-//      Log.d("debug", "connectionLost");
-  }
-
-  public void deliveryComplete() {
-//    Log.d("debug", "deliveryComplete");
-  }
 }
