@@ -1,8 +1,8 @@
 package dt.cr.com.automate;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -123,7 +123,7 @@ public class VmcActivity extends AppCompatActivity implements RadioButton.OnClic
         switchRegime.setEnabled(false);
         switchRegime.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+            public void onCheckedChanged(@NonNull CompoundButton compoundButton, boolean isChecked) {
 //                Log.d("debug", cParam.paramDebug());
 //                Log.d("debug", "champ=" + champ + " checked=" + isChecked);
                 if (switchActivation.isChecked()) {
@@ -160,7 +160,6 @@ public class VmcActivity extends AppCompatActivity implements RadioButton.OnClic
 //                Log.d("debug", cParam.paramDebug());
             }
         });
-
         chkBoxSetGlobalSchedParam();
         // End onCreate
     }

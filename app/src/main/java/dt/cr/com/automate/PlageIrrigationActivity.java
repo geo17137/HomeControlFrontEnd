@@ -1,5 +1,6 @@
 package dt.cr.com.automate;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -67,7 +68,8 @@ public class PlageIrrigationActivity extends AppCompatActivity
     });
     switchCircuit2.setChecked("on".equals(Unic.getInstance().getCircuit2Status()));
 
-    texViewXjour.setText("Tout les " + cParam.ihMax(DEVICE, 0) + " jours. Jour courant : " + (cParam.imMax(DEVICE, 0)));
+    texViewXjour.setText("Tout les " + cParam.ihMax(DEVICE, 0) +
+        " jours. Jour courant : " + (cParam.imMax(DEVICE, 0)));
 
     seekBarJours.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
       @Override
@@ -75,12 +77,10 @@ public class PlageIrrigationActivity extends AppCompatActivity
 
         if (b) {
 //          Log.d("debug", "seekbar user" + ":" + i);
-          texViewXjour.setText("Tout les " + i +" jours. Jour courant : " + (cParam.imMax(DEVICE, 0)));
+          texViewXjour.setText("Tout les " + i +" jours. Jour courant : " +
+              "" + (cParam.imMax(DEVICE, 0)));
           cParam.set_hMax(i, DEVICE, 0);
         }
-//        else {
-//          Log.d("debug", "seekbar " + ":" + i);
-//        }
       }
 
       @Override
@@ -94,7 +94,6 @@ public class PlageIrrigationActivity extends AppCompatActivity
       }
     });
 
-
     radioButtons = new RadioButton[Unic.MAX_RADIO_BUTTONS];
     radioButtons[0] = findViewById(R.id.radioButtonIrrigation1);
     radioButtons[1] = findViewById(R.id.radioButtonIrrigation2);
@@ -105,8 +104,8 @@ public class PlageIrrigationActivity extends AppCompatActivity
     switchActivation = findViewById(R.id.id_switch_z);
     switchActivation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
       @Override
-      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        switchActivation.setText(isChecked ? "Activé" : "Desactivé");
+      public void onCheckedChanged(@NonNull CompoundButton buttonView, boolean isChecked) {
+        switchActivation.setText(isChecked ? "Activé" : "Désactivé");
         for (int i = 0; i < radioButtons.length; i++) {
           if (radioButtons[i].isChecked())
             cParam.setEnable(isChecked, DEVICE, i);
@@ -137,7 +136,7 @@ public class PlageIrrigationActivity extends AppCompatActivity
     isEnabledTimePicker = true;
     boolean enabled = cParam.isEnable(DEVICE, plage);
     switchActivation.setChecked(enabled);
-    switchActivation.setText(enabled ? "Activé" : "Desactivé");
+    switchActivation.setText(enabled ? "Activé" : "Désactivé");
   }
 
   private void chkBoxSetGlobalSchedParam() {

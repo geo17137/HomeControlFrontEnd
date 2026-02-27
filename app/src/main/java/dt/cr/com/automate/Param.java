@@ -140,7 +140,7 @@ public class Param {
     StringBuilder sb = new StringBuilder();
     int i = 0;
     for (; i < tabParam.length - 1; i++) {
-      sb.append(tabParam[i] + ":");
+      sb.append(tabParam[i]).append(":");
     }
     sb.append(tabParam[i]);
     return sb.toString();

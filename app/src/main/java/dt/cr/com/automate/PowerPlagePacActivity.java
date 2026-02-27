@@ -288,7 +288,7 @@ public class PowerPlagePacActivity extends AppCompatActivity implements RadioBut
       StringBuilder sb = new StringBuilder();
       int i = 0;
       for (; i < MAX_IR_PARAM -1; i++)
-        sb.append(tabIrParam[i] + ":");
+        sb.append(tabIrParam[i]).append(":");
       sb.append(tabIrParam[i]);
       Unic.getInstance().setIrParam(sb.toString());
       Unic.getInstance().getMainActivity().writeIrParam(sb.toString());

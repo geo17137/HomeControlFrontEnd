@@ -269,8 +269,6 @@ public class MainActivity extends AppCompatActivity {
                                          @NonNull int[] grantResults) {
     super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     boolean permissionOK = true;
-//    switch (requestCode) {
-//      case 1:
     for (int i = 0; i < permissions.length; i++) {
       if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
         permissionOK = false;
@@ -397,8 +395,7 @@ public class MainActivity extends AppCompatActivity {
       }
     });
 
-    // envoi de commande de type bascule
-    // PAC
+    // PAC: envoi de commande de type bascule
     cmd6.setOnClickListener(view -> {
       lastTouchTime = currentTouchTime;
       currentTouchTime = System.currentTimeMillis();
@@ -424,7 +421,6 @@ public class MainActivity extends AppCompatActivity {
       Tâche de surveillance des entrées GPIO bistables
       Désactivé en arrière plan
      */
-    
     handler = new Handler();
     handler.postDelayed(runnable = new Runnable() {
       @Override
@@ -467,8 +463,7 @@ public class MainActivity extends AppCompatActivity {
     String[] actions;
     if (paramProtect == null) {
       editor.putString("sdat", "1:1:1:1:1:1:1:1:1");
-//    actions = "1:1:1:1:1:1:1:1".split(":");
-      editor.commit();
+      editor.apply();
     } else {
       actions = paramProtect.split(":");
       // Il n'y a que 6 boutons (MAX_BUTTONS=7 à cause du switch heure E/H)
@@ -486,25 +481,13 @@ public class MainActivity extends AppCompatActivity {
     String brocker = prefs.getString("brocker", null);
     if (brocker == null) {
       editor.putString("brocker", ADDRESS);
-      editor.commit();
+      editor.apply();
       return ADDRESS;
     }
     return brocker;
   }
 
-//  public void writeParam() {
-//    StringBuilder dataParam = new StringBuilder();
-//    int i = PARAM_START;
-//
-//    for (; i < MAX_PARAM - 1; i++)
-//      dataParam.append(Unic.getInstance().getcParam().getTabParam()[i]).append(":");
-//    dataParam.append(Unic.getInstance().getcParam().getTabParam()[i]);
-//    mqttHandler.publish(TOPIC_WRITE_PARAM,  dataParam.toString().getBytes());
-//  }
-
   public void writeParam(String param) {
-//    Log.d("debug", Unic.getInstance().getcParam().paramDebug());
-//    Log.d("debug", param);
     mqttHandler.publish(TOPIC_WRITE_PARAM, param.getBytes());
   }
 
@@ -565,7 +548,7 @@ public class MainActivity extends AppCompatActivity {
     int id = item.getItemId();
     if (id == R.id.id_action_portail) {
       try {
-        Intent i = null;
+        Intent i;
         i = getPackageManager().getLaunchIntentForPackage("dt.cr.com.portailmqtt");
         if (i == null) throw new PackageManager.NameNotFoundException();
         i.addCategory(Intent.CATEGORY_LAUNCHER);
@@ -574,7 +557,7 @@ public class MainActivity extends AppCompatActivity {
       }
     } else if (id == R.id.id_action_garage) {
       try {
-        Intent i = null;
+        Intent i;
         i = getPackageManager().getLaunchIntentForPackage("dt.cr.com.garage");
         if (i == null) throw new PackageManager.NameNotFoundException();
         i.addCategory(Intent.CATEGORY_LAUNCHER);
@@ -641,8 +624,6 @@ public class MainActivity extends AppCompatActivity {
       mqttHandler.publish(TOPIC_GET_GPIO, "".getBytes());
       mqttHandler.publish(TOPIC_PAC_IR_PARAM_GET, "".getBytes());
   }
-
-
   public void messageArrived(String topic, String reponse) {
     switch (topic) {
       case PUB_POWER_STATUS:
@@ -792,23 +773,6 @@ public class MainActivity extends AppCompatActivity {
         return;
 
       case TOPIC_READ_LOGS:
-//        String msg = reponse;
-//        if (!"#####".equals(msg)) {
-//          logBuffer.append(msg);
-//          return;
-//        }
-//        String[] tReponse = logBuffer.toString().split("\n");
-//        ArrayList<String> al = new ArrayList<>();
-//        for (String line : tReponse)
-//          al.add(line+"\n");
-//        Collections.reverse(al);
-//        reponse = al.toString().substring(1);
-//        reponse = reponse.replace("\n", "&lt;br&gt;");
-//        reponse = reponse.replace(",", "");
-//        LogsActivity.editTextLogs.setText((Html.fromHtml(Html.fromHtml(reponse).toString())));
-//        logBuffer.delete(0, logBuffer.length()-1);
-//        return;
-
         if (!"#####".equals(reponse)) {
           logBuffer.append(reponse);
           return;
@@ -823,8 +787,10 @@ public class MainActivity extends AppCompatActivity {
         msg = msg.replace(",", "");
         LogsActivity.editTextLogs.setText((Html.fromHtml(Html.fromHtml(msg).toString())));
         logBuffer.delete(0, logBuffer.length() - 1);
+        break;
       case TOPIC_CIRCUIT2_STATUS:
         Unic.getInstance().setCircuit2Status(reponse);
+        break;
     }
   }
 
@@ -905,5 +871,4 @@ public class MainActivity extends AppCompatActivity {
   public void setVanneCircuit2(boolean isChecked) {
     mqttHandler.publish(TOPIC_CIRCUIT2_ACTION, isChecked ? "on".getBytes() : "off".getBytes());
   }
-
 }

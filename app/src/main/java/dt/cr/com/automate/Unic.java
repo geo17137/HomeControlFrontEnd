@@ -26,25 +26,18 @@ class Unic {
   static final int MAX_PARAM = NB_ITEMS_PLAGE * NB_PLAGES * NB_DISPOSITIFS;
 
   static final int MAX_RADIO_BUTTONS = 3;
-  //  static final int MAX_BUTTONS = 7;
-//
   private MainActivity mainActivity;
   private ImageButton[] imageButtons;
-
   private String[] stabGlobalSchedParam;
   private boolean signalDefautPompe;
   private PlageIrrigationActivity plageIrrigationActivity;
-
   public String getCircuit2Status() {
     return circuit2Status;
   }
-
   public void setCircuit2Status(String circuit2Status) {
     this.circuit2Status = circuit2Status;
   }
-
   private String circuit2Status;
-
   public boolean isArrosagePermanent() {
     return arrosagePermanent;
   }

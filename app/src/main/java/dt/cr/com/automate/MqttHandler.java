@@ -1,6 +1,8 @@
 
 package dt.cr.com.automate;
 
+import static java.lang.System.*;
+
 import android.os.Handler;
 import android.os.Looper;
 import com.hivemq.client.mqtt.datatypes.MqttQos;
@@ -46,7 +48,7 @@ public class MqttHandler {
         // Redirection sécurisée
         mainHandler.post(() -> {
           if (throwable != null) {
-            System.err.println("❌ Échec de connexion : " + throwable.getMessage());
+            err.println("❌ Échec de connexion : " + throwable.getMessage());
           } else {
             mainActivity.connectComplete();
           }
@@ -60,7 +62,7 @@ public class MqttHandler {
 
   public void subscribe(String topic, int qosLevel) {
     if (!isConnected()) {
-      System.err.println("❌ Impossible de souscrire : non connecté.");
+      err.println("❌ Impossible de souscrire : non connecté.");
       return;
     }
 
@@ -75,23 +77,26 @@ public class MqttHandler {
   }
 
   public void connectionLost(Throwable cause) {
-    System.err.println("⚠️ Connexion perdue ! " + (cause != null ? cause.getMessage() : ""));
+    err.println("⚠️ Connexion perdue ! " + (cause != null ? cause.getMessage() : ""));
   }
 
   private void handleIncomingMessage(Mqtt5Publish publish) {
     // C'est ICI que la magie opère : on renvoie le message réseau vers l'UI
     mainHandler.post(() -> {
       try {
-        messageArrived(publish.getTopic().toString(), publish.getPayloadAsBytes());
+        mainActivity.messageArrived(publish.getTopic().toString(),
+                                    new String(publish.getPayloadAsBytes(), StandardCharsets.UTF_8));
+//        messageArrived(publish.getTopic().toString(), publish.getPayloadAsBytes());
       } catch (Exception e) {
         e.printStackTrace();
       }
     });
   }
 
-  public void messageArrived(String topic, byte[] message) throws Exception {
+  // Utiliser pour debug
+  private void messageArrived(String topic, byte[] message) throws Exception {
     String payload = new String(message, StandardCharsets.UTF_8);
-    System.out.println("📩 Reçu sur " + topic + " : " + payload);
+    // System.out.println("📩 Reçu sur " + topic + " : " + payload);
     // Garanti à 100% de s'exécuter sur le Main Thread pour vos animations
     mainActivity.messageArrived(topic, payload);
   }
@@ -110,7 +115,7 @@ public class MqttHandler {
     return client != null && client.getState().isConnected();
   }
 
-  public void deconnecter() {
+  public void deconnect() {
     if (client != null) {
       client.disconnect();
     }

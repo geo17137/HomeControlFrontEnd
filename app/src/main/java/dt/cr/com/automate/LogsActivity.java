@@ -1,5 +1,6 @@
 package dt.cr.com.automate;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.MenuItem;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class LogsActivity extends AppCompatActivity {
+  @SuppressLint("StaticFieldLeak")
   static EditText editTextLogs;
 
   @Override
@@ -27,7 +29,7 @@ public class LogsActivity extends AppCompatActivity {
 
     editTextLogs = findViewById(R.id.id_editTextMultiLine);
     Unic.getInstance().getMainActivity().readLogs();
-    Unic.getInstance().getMainActivity().getIOTLogStatus();
+    // Unic.getInstance().getMainActivity().getIOTLogStatus();
 
     Button deleteButton = findViewById(R.id.id_button_clear);
     deleteButton.setOnClickListener(new View.OnClickListener() {

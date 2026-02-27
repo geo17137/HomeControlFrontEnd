@@ -1,8 +1,8 @@
 package dt.cr.com.automate;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
@@ -136,7 +136,7 @@ public class ParameterActivity extends AppCompatActivity implements  SeekBar.OnS
         switchSummer = findViewById(R.id.switchSummer);
         switchSummer.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean bval) {
+            public void onCheckedChanged(@NonNull CompoundButton compoundButton, boolean bval) {
                 if (!initialised)
                     return;
                 itabDlyParam[OFFSET_SUMMER_TIME_OFF] = bval ? 2 : 1;
@@ -148,7 +148,7 @@ public class ParameterActivity extends AppCompatActivity implements  SeekBar.OnS
         switchLogReport = findViewById(R.id.switchLogReport);
         switchLogReport.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean bval) {
+            public void onCheckedChanged(@NonNull CompoundButton compoundButton, boolean bval) {
                 if (!initialised)
                     return;
                 itabDlyParam[OFFSET_LOG_STATUS] = bval ? 1 : 0;
@@ -161,7 +161,7 @@ public class ParameterActivity extends AppCompatActivity implements  SeekBar.OnS
         switchSupressorDis = findViewById(R.id.switchSupressorDis);
         switchSupressorDis.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean bval) {
+            public void onCheckedChanged(@NonNull CompoundButton compoundButton, boolean bval) {
                 if (!initialised)
                     return;
                 itabDlyParam[OFFSET_SUPRESSOR_STATUS] = bval ? 1 : 0;
@@ -173,7 +173,7 @@ public class ParameterActivity extends AppCompatActivity implements  SeekBar.OnS
         switchSupressorSecurity = findViewById(R.id.switchSupressorSecurity);
         switchSupressorSecurity.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean bval) {
+            public void onCheckedChanged(@NonNull CompoundButton compoundButton, boolean bval) {
                 if (!initialised)
                     return;
                 itabDlyParam[OFFSET_SURPRESSOR_SECURIT_EN] = bval ? 1 : 0;
@@ -220,23 +220,20 @@ public class ParameterActivity extends AppCompatActivity implements  SeekBar.OnS
         int id = seekBar.getId();
         if (id == seekBarTimeOutWaterring.getId()) {
             itabDlyParam[OFFSET_TIME_WATERING] = i * 60;
-            textViewWateringTime.setText(getResources().getString(R.string.duree_arrosage) +
-                    " " + i + " mn");
+            textViewWateringTime.setText(getResources().getString(R.string.duree_arrosage) + " " + i + " mn");
         }
         else if (id == seekBarTimeOutWaterringEV_Est.getId()) {
             itabDlyParam[OFFSET_EAST_VALVE_ON_TIME] = i * 60;
-            textViewWateringTimeEV_EST.setText(getResources().getString(R.string.temps_arrosage_EV_EST) +
-                    " " + i + " mn");
+            textViewWateringTimeEV_EST.setText(getResources().getString(R.string.temps_arrosage_EV_EST) + " " + i + " mn");
         }
         else if (id == seekBarTimeTankFilling.getId()) {
             itabDlyParam[OFFSET_TIME_TANK_FILLING] = i;
-            textViewTimeTankFilling.setText(getResources().getString(R.string.duree_remplissage_reservoir) +
-                    " " + i + " s");
+            textViewTimeTankFilling.setText(getResources().getString(R.string.duree_remplissage_reservoir) + " " + i + " s");
         }
         else if (id == seekBarTimeOutSupressor.getId()) {
             itabDlyParam[OFFSET_SUPRESSOR_ERROR] = i;
-            textViewTimeOutSupressor.setText(getResources().getString(R.string.temps_avant_mise_en_securite) +
-                    " " + i + " s");
+            textViewTimeOutSupressor.setText(
+                getResources().getString(R.string.temps_avant_mise_en_securite) + " " + i + " s");
         }
 
     }
@@ -258,27 +255,24 @@ public class ParameterActivity extends AppCompatActivity implements  SeekBar.OnS
         itabDlyParam[OFFSET_TIME_WATERING] = time;
         time = time/60;
         seekBarTimeOutWaterring.setProgress(time);
-        textViewWateringTime.setText(getResources().getString(R.string.duree_arrosage) +
-                " " + time + " mn");
+        textViewWateringTime.setText(getResources().getString(R.string.duree_arrosage) + " " + time + " mn");
 
         time = Integer.parseInt(tabDlyParam[OFFSET_EAST_VALVE_ON_TIME]);
         itabDlyParam[OFFSET_EAST_VALVE_ON_TIME] = time;
         time = time/60;
         seekBarTimeOutWaterringEV_Est.setProgress(time);
-        textViewWateringTimeEV_EST.setText(getResources().getString(R.string.temps_arrosage_EV_EST) +
-                " " + time + " mn");
+        textViewWateringTimeEV_EST.setText(getResources().getString(R.string.temps_arrosage_EV_EST) + " " + time + " mn");
 
         time = Integer.parseInt(tabDlyParam[OFFSET_TIME_TANK_FILLING]);
         itabDlyParam[OFFSET_TIME_TANK_FILLING] = time;
         seekBarTimeTankFilling.setProgress(time);
-        textViewTimeTankFilling.setText(getResources().getString(R.string.duree_remplissage_reservoir) +
-                " " + time + " s");
+        textViewTimeTankFilling.setText(getResources().getString(R.string.duree_remplissage_reservoir) + " " + time + " s");
 
         time = Integer.parseInt(tabDlyParam[OFFSET_SUPRESSOR_ERROR]);
         seekBarTimeOutSupressor.setProgress(time);
         itabDlyParam[OFFSET_SUPRESSOR_ERROR] = time;
-        textViewTimeOutSupressor.setText(getResources().getString(R.string.temps_avant_mise_en_securite) +
-                " " + time + " s");
+        textViewTimeOutSupressor.setText(
+            getResources().getString(R.string.temps_avant_mise_en_securite) + " " + time + " s");
 
         boolean bval = "2".equals(tabDlyParam[OFFSET_SUMMER_TIME_OFF]);
         switchSummer.setChecked(bval);
@@ -303,7 +297,6 @@ public class ParameterActivity extends AppCompatActivity implements  SeekBar.OnS
         bval = "1".equals(tabDlyParam[OFFSET_SURPRESSOR_SECURIT_EN]);
         switchSupressorSecurity.setChecked(bval);
         itabDlyParam[OFFSET_SURPRESSOR_SECURIT_EN] = bval ? 1 : 0;
-
         initialised = true;
     }
 
