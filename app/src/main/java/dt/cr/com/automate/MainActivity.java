@@ -441,7 +441,7 @@ public class MainActivity extends AppCompatActivity {
           } else {
             textStatus.setText(R.string.cnx_nok);
             textStatus.setTextColor(Color.RED);
-            mqttHandler.publish(TOPIC_GET_PARAM, "".getBytes());
+            //mqttHandler.publish(TOPIC_GET_PARAM, "".getBytes());
             setMenuEnabled(false);
           }
         }
@@ -614,15 +614,15 @@ public class MainActivity extends AppCompatActivity {
       mqttHandler.subscribe(TOPIC_GLOBAL_SCHED, 0);
       mqttHandler.subscribe(TOPIC_GPIO, 0);
       mqttHandler.subscribe(TOPIC_DEFAUT_SUPRESSEUR, 0);
-//      mqttHandler.subscribe(PUB_POWER_STATUS, 0);
+//    mqttHandler.subscribe(PUB_POWER_STATUS, 0);
       mqttHandler.subscribe(TOPIC_PAC_IR_PARAM_PUB, 0);
       mqttHandler.subscribe(TOPIC_PAC_IR_VERSION, 0);
-//      mqttHandler.subscribe(TOPIC_VMC_STATUS, 0);
+//    mqttHandler.subscribe(TOPIC_VMC_STATUS, 0);
       mqttHandler.subscribe(TOPIC_CIRCUIT2_STATUS, 0);
 
       mqttHandler.publish(TOPIC_GET_PARAM, "".getBytes());
-      mqttHandler.publish(TOPIC_GET_GPIO, "".getBytes());
-      mqttHandler.publish(TOPIC_PAC_IR_PARAM_GET, "".getBytes());
+//    mqttHandler.publish(TOPIC_GET_GPIO, "".getBytes());
+//    mqttHandler.publish(TOPIC_PAC_IR_PARAM_GET, "".getBytes());
   }
   public void messageArrived(String topic, String reponse) {
     switch (topic) {
@@ -647,10 +647,9 @@ public class MainActivity extends AppCompatActivity {
 
       case TOPIC_PARAM:
         isClientConnected = true;
-//        paramGet = true;
         Unic.getInstance().getcParam().setParam(reponse.trim());
-        //        String debug = Unic.getInstance().getcParam().paramDebug();
-        //        Log.d("debug", debug);
+        // String debug = Unic.getInstance().getcParam().paramDebug();
+        //  Log.d("debug", debug);
         // Une fois les paramètres obtenus, acquerir les paramètres globaux ScheduledParam
         if (!paramGet) {
           mqttGetGlobalScheduledParam();
@@ -682,7 +681,6 @@ public class MainActivity extends AppCompatActivity {
       //  f GPIO_PAC
 
       case TOPIC_GPIO:
-//        Log.d("debug", reponse);
         String[] gpioPorts = reponse.split(";");
         if ("1".equals(gpioPorts[GPIO_ARROSAGE])) {
           cmd1.setBackgroundResource(R.mipmap.ic_arrosage_off);
@@ -811,21 +809,8 @@ public class MainActivity extends AppCompatActivity {
     mqttHandler.publish(TOPIC_CLEAR_LOGS, "".getBytes());
   }
 
-  public void setSummerTime(boolean b) {
-//    mqttHandler.publish(TOPIC_TIME_SUMMER_OFF, (b ? "2" : "1").getBytes());
-  }
-
-  public void setDisableLog(String status) {
-//    mqttHandler.publish(TOPIC_SET_LOG_STATUS, status.getBytes());
-  }
-
-  public void getIOTLogStatus() {
-//    mqttHandler.publish(TOPIC_GET_LOG_STATUS, "". getBytes());
-  }
-
   public void writeIrParam(String param) {
     mqttHandler.publish(TOPIC_PAC_IR_PARAM_SET, param.getBytes());
-    //mqttHandler.publish(TOPIC_PAC_IR_PARAM_APPLY, "".getBytes());
   }
 
   public void setPacActive(boolean b) {
