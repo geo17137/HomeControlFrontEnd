@@ -77,8 +77,7 @@ public class PlageIrrigationActivity extends AppCompatActivity
 
         if (b) {
 //          Log.d("debug", "seekbar user" + ":" + i);
-          texViewXjour.setText("Tout les " + i +" jours. Jour courant : " +
-              "" + (cParam.imMax(DEVICE, 0)));
+          texViewXjour.setText("Tout les " + i +" jours. Jour courant : " + (cParam.imMax(DEVICE, 0)));
           cParam.set_hMax(i, DEVICE, 0);
         }
       }

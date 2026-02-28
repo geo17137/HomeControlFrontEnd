@@ -42,8 +42,8 @@ public class Secret {
     static final String userName = "xxxxx";
     static final String password = "xxxxx";
 
-    static final String LOCAL_ADRESS = "tcp://xxx.xxx.xxx.xxx:yyyy";
-    static final String ADDRESS = "tcp://zzzzz:yyyy";
+    static final String LOCAL_ADRESS = "http://xxx.xxx.xxx.xxx:yyyy";
+    static final String ADDRESS = "http://zzzzz:yyyy";
 
     static final CharSequence SSID1 = "XXXXX";
     static final CharSequence SSID2 = "XXXXX";
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
   //  public static final int VMC = 4;
 
   // Se référer au client mqtt (projet platformio Esp32_HomeCtrl)
-// Numéro des ports GPIO relais
+  // Numéro des ports GPIO relais
   private final int GPIO_ARROSAGE = 0;
   private final int GPIO_IRRIGATION = 1;
   private final int GPIO_FOUR = 2;
@@ -73,8 +73,6 @@ public class MainActivity extends AppCompatActivity {
   private final int GPIO_VMC = 4;
   private final int GPIO_PAC = 5;
 
-  private final int testMqttCounter = 0;
-  private final int testClientCounter = 0;
   private long lastTouchTime = 0;
   private long currentTouchTime = 0;
 
@@ -291,7 +289,6 @@ public class MainActivity extends AppCompatActivity {
   private void startApp() {
     String serverMqtt;
     setMenuEnabled(false);
-//    powerOn_N_1 = !powerOn;
     setContentView(R.layout.activity_main);
     setTitle(R.string.AppTitle);
     textStatus = findViewById(R.id.textStatus);
@@ -415,7 +412,6 @@ public class MainActivity extends AppCompatActivity {
         }
       }
     });
-
 
     /*
       Tâche de surveillance des entrées GPIO bistables
