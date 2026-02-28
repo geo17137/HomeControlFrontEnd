@@ -307,7 +307,7 @@ public class MainActivity extends AppCompatActivity {
     if (getWifiInfo()) {
       serverMqtt = LOCAL_ADRESS;
     } else {
-      serverMqtt = getBrocker();
+      serverMqtt = getBroker();
     }
     Unic.getInstance().setBrockerAdr(serverMqtt);
     mqttHandler = new MqttHandler(this);
@@ -470,17 +470,17 @@ public class MainActivity extends AppCompatActivity {
     }
   }
 
-  public String getBrocker() {
+  public String getBroker() {
     SharedPreferences prefs = Unic.getInstance().getPrefs();
     SharedPreferences.Editor editor;
     Unic.getInstance().setEditor(editor = prefs.edit());
-    String brocker = prefs.getString("brocker", null);
-    if (brocker == null) {
-      editor.putString("brocker", ADDRESS);
+    String broker = prefs.getString("broker", null);
+    if (broker == null) {
+      editor.putString("broker", ADDRESS);
       editor.apply();
       return ADDRESS;
     }
-    return brocker;
+    return broker;
   }
 
   public void writeParam(String param) {
