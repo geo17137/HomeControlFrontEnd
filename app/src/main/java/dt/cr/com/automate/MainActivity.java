@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -418,14 +419,18 @@ public class MainActivity extends AppCompatActivity {
       Tâche de surveillance des entrées GPIO bistables
       Désactivé en arrière plan
      */
+
     handler = new Handler();
     handler.postDelayed(runnable = new Runnable() {
+      private boolean first = true;
+
       @Override
       public void run() {
         if (!mqttHandler.isConnected()) {
           textStatus.setText(R.string.mqtt_nok);
           textStatus.setTextColor(Color.RED);
           setMenuEnabled(false);
+          Log.d("isConnected","" + "1");
         } else {
           textStatus.setText(R.string.mqtt_ok);
           textStatus.setTextColor(Color.GREEN);
@@ -435,17 +440,22 @@ public class MainActivity extends AppCompatActivity {
             mqttHandler.publish(TOPIC_APP_CONNECT, "1".getBytes());
             mqttHandler.publish(TOPIC_PAC_IR_PARAM_GET, "".getBytes());
             mqttHandler.publish(TOPIC_GET_GPIO, "".getBytes());
+            // Log.d("isConnected","" + "3");
             setMenuEnabled(true);
           } else {
-            textStatus.setText(R.string.cnx_nok);
-            textStatus.setTextColor(Color.RED);
-            setMenuEnabled(false);
-            handler.postDelayed(this, 1000);
+            if (first) {
+              textStatus.setText(R.string.cnx_nok);
+              textStatus.setTextColor(Color.RED);
+              setMenuEnabled(false);
+              first = false;
+              // mqttHandler.publish(TOPIC_GET_PARAM, "".getBytes());
+            }
+            // Log.d("isConnected","" + "2");
+            handler.postDelayed(this, 2000);
           }
         }
-//        handler.postDelayed(this, 1000);
       }
-    }, 500);
+    }, 1000);
     init = true;
   }
 
