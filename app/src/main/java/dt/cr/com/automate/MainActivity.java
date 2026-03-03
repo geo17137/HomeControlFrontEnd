@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
   private final String TOPIC_GET_VERSION = PREFIX + "homecontrol/versions_get";
   private final String TOPIC_WATCH_DOG_OFF = PREFIX + "homecontrol/watch_dog_off";
   private final String TOPIC_CMD_REAMORCER = PREFIX + "homecontrol/rearmorcer";
-
+  private final String TOPIC_APP_CONNECT = "homecontrol/app_connect";
   private final String VMC_BOARD_ACTION = PREFIX + "vmc_board/action";
 
   //  private static final String SUB_GPIO0_ACTION  = "board1/action";
@@ -166,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
   private final String TOPIC_PAC_IR_VANNE = PREFIX + "mitsubishi/param/vanne";
   private final String TOPIC_PAC_IR_VERSION_GET = PREFIX + "mitsubishi/get_version";
   private final String TOPIC_CIRCUIT2_ACTION = "circuit2/action";
+
   //--------------------------------- Abonnements --------------------------------------
 
   private final String TOPIC_READ_VERSION = PREFIX + "homecontrol/readVersion";
@@ -431,17 +432,18 @@ public class MainActivity extends AppCompatActivity {
           if (isClientConnected) {
             textStatus.setText(R.string.cnx_ok);
             textStatus.setTextColor(Color.GREEN);
-            mqttHandler.publish(TOPIC_GET_GPIO, "".getBytes());
+            mqttHandler.publish(TOPIC_APP_CONNECT, "1".getBytes());
             mqttHandler.publish(TOPIC_PAC_IR_PARAM_GET, "".getBytes());
+            mqttHandler.publish(TOPIC_GET_GPIO, "".getBytes());
             setMenuEnabled(true);
           } else {
             textStatus.setText(R.string.cnx_nok);
             textStatus.setTextColor(Color.RED);
-            //mqttHandler.publish(TOPIC_GET_PARAM, "".getBytes());
             setMenuEnabled(false);
+            handler.postDelayed(this, 1000);
           }
         }
-        handler.postDelayed(this, 1000);
+//        handler.postDelayed(this, 1000);
       }
     }, 500);
     init = true;
@@ -564,6 +566,7 @@ public class MainActivity extends AppCompatActivity {
       intent = new Intent(MainActivity.this, PowerPlageCookingActivity.class);
       startActivity(intent);
     } else if (id == R.id.id_action_pac) {
+      mqttHandler.publish(TOPIC_PAC_IR_PARAM_GET, "".getBytes());
       intent = new Intent(MainActivity.this, PowerPlagePacActivity.class);
       startActivity(intent);
     } else if (id == R.id.id_action_irrigation) {
@@ -582,6 +585,7 @@ public class MainActivity extends AppCompatActivity {
       intent = new Intent(MainActivity.this, IconParameter.class);
       startActivity(intent);
     } else if (id == R.id.id_action_exit) {
+      mqttHandler.publish(TOPIC_APP_CONNECT, "0".getBytes());
       System.exit(0);
       return true;
     } else if (id == R.id.id_action_reboot) {
@@ -619,6 +623,7 @@ public class MainActivity extends AppCompatActivity {
       mqttHandler.publish(TOPIC_GET_PARAM, "".getBytes());
 //    mqttHandler.publish(TOPIC_GET_GPIO, "".getBytes());
 //    mqttHandler.publish(TOPIC_PAC_IR_PARAM_GET, "".getBytes());
+//    mqttHandler.publish(TOPIC_APP_CONNECT, "1".getBytes());
   }
   public void messageArrived(String topic, String reponse) {
     switch (topic) {
