@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -42,8 +43,8 @@ public class Secret {
     static final String userName = "xxxxx";
     static final String password = "xxxxx";
 
-    static final String LOCAL_ADRESS = "tcp://xxx.xxx.xxx.xxx:yyyy";
-    static final String ADDRESS = "tcp://zzzzz:yyyy";
+    static final String LOCAL_ADRESS = "http://xxx.xxx.xxx.xxx:yyyy";
+    static final String ADDRESS = "http://zzzzz:yyyy";
 
     static final CharSequence SSID1 = "XXXXX";
     static final CharSequence SSID2 = "XXXXX";
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
   //  public static final int VMC = 4;
 
   // Se référer au client mqtt (projet platformio Esp32_HomeCtrl)
-// Numéro des ports GPIO relais
+  // Numéro des ports GPIO relais
   private final int GPIO_ARROSAGE = 0;
   private final int GPIO_IRRIGATION = 1;
   private final int GPIO_FOUR = 2;
@@ -73,8 +74,6 @@ public class MainActivity extends AppCompatActivity {
   private final int GPIO_VMC = 4;
   private final int GPIO_PAC = 5;
 
-  private final int testMqttCounter = 0;
-  private final int testClientCounter = 0;
   private long lastTouchTime = 0;
   private long currentTouchTime = 0;
 
@@ -153,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
   private final String TOPIC_GET_VERSION = PREFIX + "homecontrol/versions_get";
   private final String TOPIC_WATCH_DOG_OFF = PREFIX + "homecontrol/watch_dog_off";
   private final String TOPIC_CMD_REAMORCER = PREFIX + "homecontrol/rearmorcer";
-
+  private final String TOPIC_APP_CONNECT = "homecontrol/app_connect";
   private final String VMC_BOARD_ACTION = PREFIX + "vmc_board/action";
 
   //  private static final String SUB_GPIO0_ACTION  = "board1/action";
@@ -168,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
   private final String TOPIC_PAC_IR_VANNE = PREFIX + "mitsubishi/param/vanne";
   private final String TOPIC_PAC_IR_VERSION_GET = PREFIX + "mitsubishi/get_version";
   private final String TOPIC_CIRCUIT2_ACTION = "circuit2/action";
+
   //--------------------------------- Abonnements --------------------------------------
 
   private final String TOPIC_READ_VERSION = PREFIX + "homecontrol/readVersion";
@@ -291,7 +291,6 @@ public class MainActivity extends AppCompatActivity {
   private void startApp() {
     String serverMqtt;
     setMenuEnabled(false);
-//    powerOn_N_1 = !powerOn;
     setContentView(R.layout.activity_main);
     setTitle(R.string.AppTitle);
     textStatus = findViewById(R.id.textStatus);
@@ -310,7 +309,7 @@ public class MainActivity extends AppCompatActivity {
     if (getWifiInfo()) {
       serverMqtt = LOCAL_ADRESS;
     } else {
-      serverMqtt = getBrocker();
+      serverMqtt = getBroker();
     }
     Unic.getInstance().setBrockerAdr(serverMqtt);
     mqttHandler = new MqttHandler(this);
@@ -416,38 +415,47 @@ public class MainActivity extends AppCompatActivity {
       }
     });
 
-
     /*
       Tâche de surveillance des entrées GPIO bistables
       Désactivé en arrière plan
      */
+
     handler = new Handler();
     handler.postDelayed(runnable = new Runnable() {
+      private boolean first = true;
+
       @Override
       public void run() {
         if (!mqttHandler.isConnected()) {
           textStatus.setText(R.string.mqtt_nok);
           textStatus.setTextColor(Color.RED);
           setMenuEnabled(false);
+          Log.d("isConnected","" + "1");
         } else {
           textStatus.setText(R.string.mqtt_ok);
           textStatus.setTextColor(Color.GREEN);
           if (isClientConnected) {
             textStatus.setText(R.string.cnx_ok);
             textStatus.setTextColor(Color.GREEN);
-            mqttHandler.publish(TOPIC_GET_GPIO, "".getBytes());
+            mqttHandler.publish(TOPIC_APP_CONNECT, "1".getBytes());
             mqttHandler.publish(TOPIC_PAC_IR_PARAM_GET, "".getBytes());
+            mqttHandler.publish(TOPIC_GET_GPIO, "".getBytes());
+            // Log.d("isConnected","" + "3");
             setMenuEnabled(true);
           } else {
-            textStatus.setText(R.string.cnx_nok);
-            textStatus.setTextColor(Color.RED);
-            //mqttHandler.publish(TOPIC_GET_PARAM, "".getBytes());
-            setMenuEnabled(false);
+            if (first) {
+              textStatus.setText(R.string.cnx_nok);
+              textStatus.setTextColor(Color.RED);
+              setMenuEnabled(false);
+              first = false;
+              // mqttHandler.publish(TOPIC_GET_PARAM, "".getBytes());
+            }
+            // Log.d("isConnected","" + "2");
+            handler.postDelayed(this, 2000);
           }
         }
-        handler.postDelayed(this, 1000);
       }
-    }, 500);
+    }, 1000);
     init = true;
   }
 
@@ -474,17 +482,17 @@ public class MainActivity extends AppCompatActivity {
     }
   }
 
-  public String getBrocker() {
+  public String getBroker() {
     SharedPreferences prefs = Unic.getInstance().getPrefs();
     SharedPreferences.Editor editor;
     Unic.getInstance().setEditor(editor = prefs.edit());
-    String brocker = prefs.getString("brocker", null);
-    if (brocker == null) {
-      editor.putString("brocker", ADDRESS);
+    String broker = prefs.getString("broker", null);
+    if (broker == null) {
+      editor.putString("broker", ADDRESS);
       editor.apply();
       return ADDRESS;
     }
-    return brocker;
+    return broker;
   }
 
   public void writeParam(String param) {
@@ -568,6 +576,7 @@ public class MainActivity extends AppCompatActivity {
       intent = new Intent(MainActivity.this, PowerPlageCookingActivity.class);
       startActivity(intent);
     } else if (id == R.id.id_action_pac) {
+      mqttHandler.publish(TOPIC_PAC_IR_PARAM_GET, "".getBytes());
       intent = new Intent(MainActivity.this, PowerPlagePacActivity.class);
       startActivity(intent);
     } else if (id == R.id.id_action_irrigation) {
@@ -586,6 +595,7 @@ public class MainActivity extends AppCompatActivity {
       intent = new Intent(MainActivity.this, IconParameter.class);
       startActivity(intent);
     } else if (id == R.id.id_action_exit) {
+      mqttHandler.publish(TOPIC_APP_CONNECT, "0".getBytes());
       System.exit(0);
       return true;
     } else if (id == R.id.id_action_reboot) {
@@ -623,6 +633,7 @@ public class MainActivity extends AppCompatActivity {
       mqttHandler.publish(TOPIC_GET_PARAM, "".getBytes());
 //    mqttHandler.publish(TOPIC_GET_GPIO, "".getBytes());
 //    mqttHandler.publish(TOPIC_PAC_IR_PARAM_GET, "".getBytes());
+//    mqttHandler.publish(TOPIC_APP_CONNECT, "1".getBytes());
   }
   public void messageArrived(String topic, String reponse) {
     switch (topic) {
