@@ -1,5 +1,6 @@
 package dt.cr.com.automate;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -136,7 +137,7 @@ public class PlageIrrigationVanneEstActivity extends AppCompatActivity implement
 
     switchActivation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
       @Override
-      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+      public void onCheckedChanged(@NonNull CompoundButton buttonView, boolean isChecked) {
         switchActivation.setText(isChecked ? "Activé" : "Desactivé");
         for (int i = 0; i < radioButtons.length; i++) {
           if (radioButtons[i].isChecked()) {

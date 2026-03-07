@@ -2,6 +2,7 @@ package dt.cr.com.automate;
 
 import static dt.cr.com.automate.R.*;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -75,7 +76,7 @@ public class IconParameter extends AppCompatActivity
   }
 
   @Override
-  public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+  public void onCheckedChanged(@NonNull CompoundButton buttonView, boolean isChecked) {
     int i = 0;
     for (; i < MAX_BUTTONS; i++) {
       if (buttonView.equals(switches[i])) {

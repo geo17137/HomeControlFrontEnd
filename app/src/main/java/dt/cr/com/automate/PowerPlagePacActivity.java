@@ -13,6 +13,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -98,7 +99,7 @@ public class PowerPlagePacActivity extends AppCompatActivity implements RadioBut
       switchCmdPac.setText("Pac off");
     switchCmdPac.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
       @Override
-      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+      public void onCheckedChanged(@NonNull CompoundButton buttonView, boolean isChecked) {
         if (isChecked) {
           Unic.getInstance().getMainActivity().setPacActive(true);
           switchCmdPac.setText("Pac on");
@@ -220,7 +221,7 @@ public class PowerPlagePacActivity extends AppCompatActivity implements RadioBut
 
     switchActivation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
       @Override
-      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+      public void onCheckedChanged(@NonNull CompoundButton buttonView, boolean isChecked) {
         cParam.setEnable(isChecked, DEVICE, 0);
         // Activer la PAC si prog horaire activée
         if (isChecked) {

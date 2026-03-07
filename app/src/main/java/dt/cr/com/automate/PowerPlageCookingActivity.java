@@ -8,6 +8,7 @@ import android.widget.RadioButton;
 import android.widget.Switch;
 import android.widget.TimePicker;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -50,7 +51,7 @@ public class PowerPlageCookingActivity extends AppCompatActivity implements Radi
     setTimePickerMax(0);
     switchActivation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
       @Override
-      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+      public void onCheckedChanged(@NonNull CompoundButton buttonView, boolean isChecked) {
         switchActivation.setText(isChecked ? "Activé" : "Desactivé");
         for (int i = 0; i < radioButtons.length; i++) {
           if (radioButtons[i].isChecked())

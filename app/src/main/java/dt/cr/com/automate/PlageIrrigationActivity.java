@@ -62,7 +62,7 @@ public class PlageIrrigationActivity extends AppCompatActivity
     Switch switchCircuit2 = findViewById(R.id.switchCircuit2);
     switchCircuit2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
       @Override
-      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+      public void onCheckedChanged(@NonNull CompoundButton buttonView, boolean isChecked) {
             Unic.getInstance().getMainActivity().setVanneCircuit2(isChecked);
       }
     });

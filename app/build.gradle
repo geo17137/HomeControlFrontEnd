@@ -36,6 +36,7 @@ android {
       excludes += '/META-INF/io.netty.versions.properties'
     }
   }
+  buildToolsVersion '36.0.0'
 }
 
 dependencies {

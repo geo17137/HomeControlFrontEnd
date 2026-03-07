@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Automate</string>
     <string name="cnx_nok">Attente du client</string>
     <string name="cnx_ok">Connecté</string>
@@ -50,10 +50,10 @@
     <string name="IR_off_line">IR hors ligne</string>
     <string name="pac_ajust">Réglage PAC</string>
     <string name="pac_command">Commande PAC</string>
-    <string name="pac_on">PAC on</string>
+    <string name="pac_on" tools:keep="@string/pac_on">PAC on</string>
     <string name="pac_off">PAC off</string>
     <string name="surpressor_dis">Surpresseur désactivé</string>
     <string name="surpressor_en">Surpresseur activé</string>
     <string name="surpressor_security_off">Sécurité surpresseur</string>
-    <string name="surpressor_security_on">Sécurité surpresseuron</string>
+    <string name="surpressor_security_on" tools:keep="@string/surpressor_security_on">Sécurité surpresseuron</string>
 </resources>

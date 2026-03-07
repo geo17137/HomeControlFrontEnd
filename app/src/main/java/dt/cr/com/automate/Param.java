@@ -1,5 +1,7 @@
 package dt.cr.com.automate;
 
+import androidx.annotation.NonNull;
+
 import java.util.Arrays;
 
 /*
@@ -58,6 +60,7 @@ class ItemParam {
     this.mMax_ = MMax;
   }
 
+  @NonNull
   public String toString() {
     return
         this.enable_ + ":" +
@@ -87,6 +90,7 @@ class DeviceParam {
     itemsParams[n] = itemParam;
   }
 
+  @NonNull
   public String toString() {
     StringBuilder sb = new StringBuilder();
     for (int i = 0; i < Unic.NB_PLAGES; i++) {
@@ -136,6 +140,7 @@ public class Param {
     return itemsParam;
   }
 
+  @NonNull
   public String toString() {
     StringBuilder sb = new StringBuilder();
     int i = 0;

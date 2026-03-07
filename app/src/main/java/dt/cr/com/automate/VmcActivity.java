@@ -95,7 +95,7 @@ public class VmcActivity extends AppCompatActivity implements RadioButton.OnClic
         switchActivation = findViewById(R.id.id_switch_vmc_enable);
         switchActivation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            public void onCheckedChanged(@NonNull CompoundButton buttonView, boolean isChecked) {
                 if (!isEnabledTimePicker)
                     return;
                 if (isChecked) {
@@ -198,8 +198,8 @@ public class VmcActivity extends AppCompatActivity implements RadioButton.OnClic
     }
 
     private void setSwitch() {
-        int val = cParam.getCmdEnable(DEVICE, 0);
-        switch (cParam.getCmdEnable(DEVICE, 0)) {
+      cParam.getCmdEnable(DEVICE, 0);
+      switch (cParam.getCmdEnable(DEVICE, 0)) {
             case 0 : switchActivation.setChecked(false); break;
             case 1 : switchActivation.setChecked(true); break;
             case 2 : switchActivation.setChecked(true); switchRegime.setChecked(true);break;

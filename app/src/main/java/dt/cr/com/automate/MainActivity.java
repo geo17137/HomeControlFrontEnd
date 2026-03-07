@@ -430,7 +430,7 @@ public class MainActivity extends AppCompatActivity {
           textStatus.setText(R.string.mqtt_nok);
           textStatus.setTextColor(Color.RED);
           setMenuEnabled(false);
-          Log.d("isConnected","" + "1");
+          //Log.d("isConnected","" + "1");
         } else {
           textStatus.setText(R.string.mqtt_ok);
           textStatus.setTextColor(Color.GREEN);
