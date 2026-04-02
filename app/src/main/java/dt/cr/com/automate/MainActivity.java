@@ -437,9 +437,9 @@ public class MainActivity extends AppCompatActivity {
           if (isClientConnected) {
             textStatus.setText(R.string.cnx_ok);
             textStatus.setTextColor(Color.GREEN);
+            mqttHandler.publish(TOPIC_GET_GPIO, "".getBytes());
             mqttHandler.publish(TOPIC_APP_CONNECT, "1".getBytes());
             mqttHandler.publish(TOPIC_PAC_IR_PARAM_GET, "".getBytes());
-            mqttHandler.publish(TOPIC_GET_GPIO, "".getBytes());
             // Log.d("isConnected","" + "3");
             setMenuEnabled(true);
           } else {
@@ -450,8 +450,8 @@ public class MainActivity extends AppCompatActivity {
               first = false;
               // mqttHandler.publish(TOPIC_GET_PARAM, "".getBytes());
             }
-            // Log.d("isConnected","" + "2");
-            handler.postDelayed(this, 2000);
+            //Log.d("isConnected","" + "2");
+            handler.postDelayed(this, 1000);
           }
         }
       }
